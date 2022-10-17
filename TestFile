@@ -1,10 +1,6 @@
 public class HelloWorld {
     public static void main(String[] args) {
-<<<<<<< HEAD
-        System.out.print("changedManolis123!"); 
-=======
-        System.out.println("changed1MANLIS23123aekara!"); 
->>>>>>> 088666d3240ff3a407d05745bd5f4cc4d552cec0
+    System.out.println("HLIAS!"); 
     }
 }
 test change
