@@ -1,5 +1,5 @@
 public class HelloWorld {
     public static void main(String[] args) {
-        System.out.print("changed1MANLIS23123aekara!"); 
+        System.out.println("changed1MANLIS23123aekara!"); 
     }
 }
