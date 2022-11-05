@@ -29,7 +29,7 @@ public class SocialMain {
     
     public void createPw(int i) {
         String pw;
-        flag =true;
+        flag = true;
         do {
             System.out.println("Choose a password:");
             pw= in.nextLine();
