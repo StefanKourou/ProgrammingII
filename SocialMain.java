@@ -24,12 +24,14 @@ public class SocialMain {
             }
         }while(flag);
         user.add(x);
+        createPw(user.size()-1);
     }
     
     public void createPw(int i) {
         String pw;
         flag =true;
         do {
+            System.out.println("Choose a password:");
             pw= in.nextLine();
            // System.out.println(x<5?"Your password is really weak!":x<10?"Your password is weak!":flag=false);
             if (pw.length() < 5) {
