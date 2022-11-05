@@ -22,7 +22,7 @@ public class SocialMain {
                     break;
                 }
             }
-        }while(flag);
+        } while(flag);
         user.add(x);
         createPw(user.size()-1);
     }
