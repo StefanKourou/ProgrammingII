@@ -1,0 +1,34 @@
+Logout button everywhere?
+
+
+
+
+MsgGroups show 
+=========== 
+(SQL) → query for the login user MsgGroups 
+(GUI) → Mask of MsgGroups for this user (in time-created order of last message on top) 
+(GUI) → Select MsgGroup to open Messages mask 
+(SQL) → query for the selected MsgGroup messages to show in time-created order
+(GUI) → display this MsgGroup’s Messages list (in creation-time order)
+
+
+
+
+
+
+Create New MsgGroup 
+=============== 
+(GUI) → Mask of Create new MsgGroup for this user 
+(SQL) → new MsgGroup record with given data + add this user in new MsgGroup 
+
+(GUI) → Mask to add more users in new MsgGroup 
+(SQL) → query for users search 
+(SQL) → new record to add found user in new MsgGroup 
+
+
+
+
+
+{users invitations + accept mechanism through email?}???
+
+

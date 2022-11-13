@@ -1,0 +1,56 @@
+REGISTER (new user) 
+==============
+Input username
+Check existing username 
+(SQL) → query if exist user + return Y/N 
+If existing: message insert diff 
+In non: continue 
+(GUI) → Java mask to input data in SQL fields 
+Create new record 
+(SQL) → new record with given data 
+
+Return to login screen? 
+
+
+
+
+
+
+LOGIN
+====
+Input username & pass 
+(GUI) → Java mask to input data in SQL fields 
+Check existing & matching user + pass 
+(SQL) → search user+pass & return Y/N 
+If OK: (GUI) → show MsgGroups mask 
+(SQL) → change user’s last login time record 
+In non: display message +offer register solution or back to login input
+
+
+
+
+
+LOGOUT
+====== 
+Logout button everywhere? (Public class)
+
+(java) → Nullify logged user variable! 
+
+
+
+
+
+
+EDIT user details
+============
+(logged user)
+ 
+Select edit user details +pass
+(SQL) → select record with data
+(GUI) → Java mask to show current data in SQL fields 
+Change data in fields 
+(SQL) → select record with data
+(SQL) → update record with changed data
+
+Return to MsgGroups screen? 
+
