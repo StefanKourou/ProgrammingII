@@ -86,7 +86,7 @@ public class User {
         while (true) {
             String email = in.nextLine();
             if (email.contains("@") && ((email.contains(".com") || email.contains(".gr")))) {
-                System.out.println("Valid email sucessfully created!");
+                System.out.println("Valid email sucessfully registered!");
                 return email;
             } else {
                 System.out.println("Invalid email!");
