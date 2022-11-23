@@ -15,6 +15,25 @@ public class User {
         this.conn = conn;
     }
 
+	public void registerNewUser() {
+	        while (true) {
+	            String name = in.nextLine();
+	            try {
+	                if (checkExistingUser(name).getString("name").equals(name)) {
+	                    System.out.println("User with username: " + name + " already exists!");
+	                    System.out.println("Please choose a different UserName: ");
+	                } else {
+	                    String pw = createPw();
+	                    String email = createEmail();
+	                    inserUserInDB(name, pw, email, "login_time");
+
+	                }
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+    }
+
     public ResultSet checkExistingUser(String name) {
         String sql = "SELECT name FROM USERS WHERE NAME=" + name;
         ResultSet result = null;
@@ -25,25 +44,6 @@ public class User {
             e.printStackTrace();
         }
         return result;
-    }
-
-    public void registerNewUser() {
-        while (true) {
-            String name = in.nextLine();
-            try {
-                if (checkExistingUser(name).getString("name").equals(name)) {
-                    System.out.println("User with username: " + name + " already exists!");
-                    System.out.println("Please choose a different UserName: ");
-                } else {
-                    String pw = createPw();
-                    String email = createEmail();
-                    inserUserInDB(name, pw, email, "login_time");
-
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public String createPw() {
