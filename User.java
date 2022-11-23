@@ -15,7 +15,7 @@ public class User {
         this.conn = conn;
     }
 
-    public ResultSet CheckExistingUser(String name) {
+    public ResultSet checkExistingUser(String name) {
         String sql = "SELECT name FROM USERS WHERE NAME=" + name;
         ResultSet result = null;
         try {
@@ -27,17 +27,17 @@ public class User {
         return result;
     }
 
-    public void RegisterNewUser() {
+    public void registerNewUser() {
         while (true) {
             String name = in.nextLine();
             try {
-                if (CheckExistingUser(name).getString("name").equals(name)) {
+                if (checkExistingUser(name).getString("name").equals(name)) {
                     System.out.println("User with username: " + name + " already exists!");
                     System.out.println("Please choose a different UserName: ");
                 } else {
-                    String pw = CreatePw();
-                    String email = CreateEmail();
-                    InserUserInDB(name, pw, email, "login_time");
+                    String pw = createPw();
+                    String email = createEmail();
+                    inserUserInDB(name, pw, email, "login_time");
 
                 }
             } catch (SQLException e) {
@@ -46,7 +46,7 @@ public class User {
         }
     }
 
-    public String CreatePw() {
+    public String createPw() {
         System.out.print("Please choose a valid Password, or type 'help' to get an auto-generated one: ");
         while (true) {
             String pw = in.nextLine();
@@ -81,7 +81,7 @@ public class User {
         }
     }
 
-    public String CreateEmail() {
+    public String createEmail() {
         System.out.print("Please enter your email: ");
         while (true) {
             String email = in.nextLine();
@@ -96,7 +96,7 @@ public class User {
 
     }
 
-    public void InserUserInDB(String name, String pw, String email, String login_time) {
+    public void inserUserInDB(String name, String pw, String email, String login_time) {
         String sql = "INSERT INTO USERS(Username, Password, Email, LoginTime) VALUES(?, ?, ?, ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
