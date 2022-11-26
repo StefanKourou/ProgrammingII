@@ -23,7 +23,7 @@ public class Message {
 
 	        try (Connection conn = this.connect();
 	             Statement stmt  = conn.createStatement();
-	             ResultSet queryresult = stmt.executeQuery(usersselect)){
+	             ResultSet queryresult = stmt.executeQuery(msgGroups)){
 
 	        // loop through the result set
 	        while (queryresult.next()) {
@@ -40,12 +40,12 @@ public class Message {
 		        "INSERT INTO Messages (
 		        Username, GroupID, MsgText, MsgCreationTime)  //USERNAME APO TH LOGIN GROUPID APO TH MESSAGE GROUP
 				VALUES (
-				‘Spinelis’, 2, ‘ãéá íá äïõìå ðùò öôéá÷íåôáé’, DATETIME('now','localtime'))
+				â€˜Spinelisâ€™, 2, â€˜Ã£Ã©Ã¡ Ã­Ã¡ Ã¤Ã¯ÃµÃ¬Ã¥ Ã°Ã¹Ã² Ã¶Ã´Ã©Ã¡Ã·Ã­Ã¥Ã´Ã¡Ã©â€™, DATETIME('now','localtime'))
 				";
 
 		        try (Connection conn = this.connect();
 		             Statement stmt  = conn.createStatement();
-		             ResultSet queryresult = stmt.executeQuery(usersselect)){
+		             ResultSet queryresult = stmt.executeQuery(newMessage)){
 
 		        // loop through the result set
 		        while (queryresult.next()) {
@@ -63,12 +63,12 @@ public class Message {
     	public void reactionsMessage() {
 		String newReaction =
 		"INSERT INTO Reactions (MsgID, Username, Reaction)
-		 VALUES (10, ‘testuser3’, 1)              //same me panw
+		 VALUES (10, â€˜testuser3â€™, 1)              //same me panw
 		";
 
 		try (Connection conn = this.connect();
 			Statement stmt  = conn.createStatement();
-			ResultSet queryresult = stmt.executeQuery(usersselect)){
+			ResultSet queryresult = stmt.executeQuery(newReaction)){
 
 			// loop through the result set
 			while (queryresult.next()) {
