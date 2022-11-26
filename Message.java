@@ -82,7 +82,7 @@ public class Message {
 			//query like showMessage
     	}
 
-    	public static void main(String[] args) {
+    	public static void main(String[] args) {           //theloume 3 main?
 	    	Message msgGroups = new Message();
 	        msgGroups.showMessage();
 	        Message newMessage = new Message();
