@@ -1,16 +1,6 @@
 public class Message {
-
-	private Connection connect() {
-	        // SQLite connection string
-	        String url = "jdbc:sqlite:C://sqlite/db/Progr2.db";  //Connection to database
-	        Connection conn = null;
-	        try {
-	            conn = DriverManager.getConnection(url);
-	        } catch (SQLException e) {
-	            System.out.println(e.getMessage());
-	        }
-	        return conn;
-    	}
+	
+	//Pairnw to connection apo ton hlia
 
 	public void showMessage() {
 	        String msgGroups =
