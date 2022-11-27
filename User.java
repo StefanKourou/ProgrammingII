@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class User {
     Connection conn;
+    Random r;
     Scanner in = new Scanner(System.in);
-    Random r = new Random();
 
     public User(Connection conn) {
         this.conn = conn;
@@ -59,6 +59,7 @@ public class User {
                     return pw;
                 }
             } else {
+                r = new Random();
                 String an = "0123456789abcdefghijklmnopqrstuvwxyz!@#$";
                 while (true) {
                     StringBuilder agpw = new StringBuilder();
