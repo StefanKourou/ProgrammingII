@@ -25,7 +25,7 @@ public class User {
 	                } else {
 	                    String pw = createPw();
 	                    String email = createEmail();
-	                    inserUserInDB(name, pw, email, "login_time");
+	                    inserUserInDB(name, pw, email);
 
 	                }
 	            } catch (SQLException e) {
@@ -96,14 +96,13 @@ public class User {
 
     }
 
-    public void inserUserInDB(String name, String pw, String email, String login_time) {
-        String sql = "INSERT INTO USERS(Username, Password, Email, LoginTime) VALUES(?, ?, ?, ?)";
+    public void inserUserInDB(String name, String pw, String email) {
+        String sql = "INSERT INTO USERS(Username, Password, Email) VALUES(?, ?, ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             ps.setString(2, pw);
             ps.setString(3, email);
-            ps.setString(4, login_time);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
