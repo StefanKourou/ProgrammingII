@@ -21,7 +21,7 @@ public class MsgGroup extends User {
 		 return conn;
 	}
 
-	public void createMsgGroup() {
+	public void createMsgGroup(String name) {
 		System.out.println("Please insert a name for your MessageGroup");
 		String groupName= input.nextLine();
 		System.out.println("Now insert the group's theme");
@@ -40,10 +40,10 @@ public class MsgGroup extends User {
 	}
 		
 		
-	public void addUsers(int id) {
+	public void addUsers(int id, String username) {
 	 System.out.println("Please enter the username you would like"
 					 + "add to the Group.");
-	 String name = input.nextLine();
+	 String username = input.nextLine();
 	 	if (User.checkExistingUser(username).getString("name").equals(name)) { 
 	 	 String usersselect = "SELECT Username FROM Users WHERE Discoverable==true";
 		 try (Connection conn = this.connect(); 
