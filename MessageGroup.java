@@ -40,7 +40,7 @@ public class MsgGroup extends User {
 	}
 		
 		
-	public void addUsers(int id, String username) {
+	public void addUsers(int id, String name) {
 	 System.out.println("Please enter the username you would like"
 					 + "add to the Group.");
 	 String username = input.nextLine();
