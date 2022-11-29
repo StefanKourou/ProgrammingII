@@ -24,6 +24,7 @@ public class MsgGroup extends User {
 	public void createMsgGroup() {
 		System.out.println("Please insert a name for your MessageGroup");
 		String groupName= input.nextLine();
+		System.out.println("Now insert the group's theme");
 		String groupKeyword = input.nextLine();
 		String sql = "INSERT INTO MsgGroups (MsgGroupName, GroupKeywords, MsgGroupCreator) "
 						+ "VALUES (groupName, groupKeyword, name)";
@@ -43,17 +44,17 @@ public class MsgGroup extends User {
 	 System.out.println("Please enter the username you would like"
 					 + "add to the Group.");
 	 String name = input.nextLine();
-	 	if (User.checkExistingUser(username).getString("name").equals(name)) {
-	 		String usersselect = "SELECT Username FROM Users WHERE Discoverable==true";
-			 try (Connection conn = this.connect(); 
-				Statement stmt  = conn.createStatement();
-		        ResultSet queryresult = stmt.executeQuery(usersselect)) {
-				 	while (queryresult.next()) {
-				 		System.out.println("Username:" + queryresult.getString("Username") + "\t" + 
-					 				"Email:" +	queryresult.getString("email"));
-				 	}
+	 	if (User.checkExistingUser(username).getString("name").equals(name)) { 
+	 	 String usersselect = "SELECT Username FROM Users WHERE Discoverable==true";
+		 try (Connection conn = this.connect(); 
+		     Statement stmt  = conn.createStatement();
+		     ResultSet queryresult = stmt.executeQuery(usersselect)) {
+			while (queryresult.next()) {
+				System.out.println("Username:" + queryresult.getString("Username") + "\t" + 
+					 	"Email:" +	queryresult.getString("email"));
+			}
 			 } catch (SQLException e) {
-		         System.out.println(e.getMessage());
+		            System.out.println(e.getMessage());
 			 }
 			 String sql = "INSERT INTO GroupUserRelations (RelUsername, RelMsgGroup)  "
 						+ "VALUES (username,id)";
