@@ -33,9 +33,9 @@ public class MsgGroup extends User {
 		        pstmt.setString(1, groupName);
 		        pstmt.setString(2, groupKeyword);
 		        pstmt.setString(3, name);
-			    pstmt.executeUpdate();
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			 	System.out.println(e.getMessage());
+			System.out.println(e.getMessage());
 		}		
 	}
 		
@@ -64,9 +64,9 @@ public class MsgGroup extends User {
 				 pstmt.setInt(2, id);
 				 pstmt.executeUpdate();
 			 } catch (SQLException e) {
-			 System.out.println(e.getMessage());
+			         System.out.println(e.getMessage());
 			 }		
-		 		System.out.println("User added successfully!");
+		 	 System.out.println("User added successfully!");
 	 		} else {
 			 System.out.println("Username was not found, try again!");
 			 }
