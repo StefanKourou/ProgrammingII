@@ -25,7 +25,13 @@ public class User {
 	                } else {
 	                    String pw = createPw();
 	                    String email = createEmail();
-	                    inserUserInDB(name, pw, email);
+                        String kword =null;
+                        System.out.println("Please enter a hobby/thing you like, so we can better customize your experience! "+ 
+                        "/n Differently, just press N");
+                        kword = in.nextLine();
+                        if (!kword.equals("N"))
+                            kword = createKword();
+	                    inserUserInDB(name, pw, email, kword);
 
 	                }
 	            } catch (SQLException e) {
@@ -97,13 +103,18 @@ public class User {
 
     }
 
-    public void inserUserInDB(String name, String pw, String email) {
-        String sql = "INSERT INTO USERS(Username, Password, Email) VALUES(?, ?, ?)";
+    public String createKword() {
+        return in.nextLine();
+    }
+
+    public void inserUserInDB(String name, String pw, String email, String kword) {
+        String sql = "INSERT INTO USERS(Username, Password, Email, UserKeywords) VALUES(?, ?, ?, ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             ps.setString(2, pw);
             ps.setString(3, email);
+            ps.setString(4, kword);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
