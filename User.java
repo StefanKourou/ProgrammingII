@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class User {
     Connection conn;
+    Random r;
     Scanner in = new Scanner(System.in);
-    Random r = new Random();
 
     public User(Connection conn) {
         this.conn = conn;
@@ -25,7 +25,7 @@ public class User {
 	                } else {
 	                    String pw = createPw();
 	                    String email = createEmail();
-	                    inserUserInDB(name, pw, email, "login_time");
+	                    inserUserInDB(name, pw, email);
 
 	                }
 	            } catch (SQLException e) {
@@ -59,6 +59,7 @@ public class User {
                     return pw;
                 }
             } else {
+                r = new Random();
                 String an = "0123456789abcdefghijklmnopqrstuvwxyz!@#$";
                 while (true) {
                     StringBuilder agpw = new StringBuilder();
@@ -96,14 +97,13 @@ public class User {
 
     }
 
-    public void inserUserInDB(String name, String pw, String email, String login_time) {
-        String sql = "INSERT INTO USERS(Username, Password, Email, LoginTime) VALUES(?, ?, ?, ?)";
+    public void inserUserInDB(String name, String pw, String email) {
+        String sql = "INSERT INTO USERS(Username, Password, Email) VALUES(?, ?, ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             ps.setString(2, pw);
             ps.setString(3, email);
-            ps.setString(4, login_time);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
