@@ -11,7 +11,7 @@ public class Message {
 			LIMIT 10;
 		";
 
-	        try (Connection conn = this.connect();
+	        try (Connection conn = this.connect(); // Hlias: tha exeis to conn obj apo thn Connect class, den xreiazetai na to dhmiourgeis 
 	             Statement stmt  = conn.createStatement();
 	             ResultSet queryresult = stmt.executeQuery(msgGroups)){
 
@@ -29,8 +29,8 @@ public class Message {
 		        String newMessage =
 		        "INSERT INTO Messages (
 		        Username, GroupID, MsgText, MsgCreationTime)  //USERNAME APO TH LOGIN GROUPID APO TH MESSAGE GROUP
-				VALUES (
-				‘Spinelis’, 2, ‘ãéá íá äïõìå ðùò öôéá÷íåôáé’, DATETIME('now','localtime'))
+				VALUES (			// Hlias: prepei na pairines os orisma to MsgText
+				‘Spinelis’, 2, ‘ãéá íá äïõìå ðùò öôéá÷íåôáé’, DATETIME('now','localtime')) // pithanotata xrhsimopoihsh ths getTime()
 				";
 
 		        try (Connection conn = this.connect();
@@ -72,7 +72,7 @@ public class Message {
 			//query like showMessage
     	}
 
-    	public static void main(String[] args) {           //theloume 3 main?
+    	public static void main(String[] args) {           //theloume 3 main? // OXI, TI ENNOEIS
 	    	Message msgGroups = new Message();
 	        msgGroups.showMessage();
 	        Message newMessage = new Message();
