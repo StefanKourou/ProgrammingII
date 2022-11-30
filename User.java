@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 import java.sql.Connection;
-
 import java.util.Random;
 
 public class User {
