@@ -6,14 +6,14 @@ import java.sql.SQLException;
 
 public class Connect {
 
-    public static void connect() {
+    public static Connection connect() {
         Connection conn = null;
         try {
             String url = "jdbc:sqlite:C:/sqlite/db/Progr2.db";
             conn = DriverManager.getConnection(url);
             
             System.out.println("Connection to SQLite has been established.");
-            
+            return conn;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -28,6 +28,6 @@ public class Connect {
     }
 
     public static void main(String[] args) {
-        connect();
+        User obj = new User( connect());
     }
 }
