@@ -1,3 +1,5 @@
+package core;
+
 import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,8 +10,14 @@ import java.time.format.DateTimeFormatter;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class MsgGroup extends User {
- Scanner input = new Scanner(System.in);
+public class MsgGroups extends User {
+ public MsgGroups(Connection conn) {
+		super(conn);
+		// TODO Auto-generated constructor stub
+	}
+
+
+Scanner input = new Scanner(System.in);
 	private Connection connect() {
 		String url = "jdbc:sqlite:C://sqlite/db/Progr2.db";
 		Connection conn = null;
@@ -28,27 +36,28 @@ public class MsgGroup extends User {
 		String groupKeyword = input.nextLine();
 		String sql = "INSERT INTO MsgGroups (MsgGroupName, GroupKeywords, MsgGroupCreator) "
 						+ "VALUES (groupName, groupKeyword, name)";
-		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		 try  { 
+			 PreparedStatement pstmt = conn.prepareStatement(sql);
 		        pstmt.setString(1, groupName);
 		        pstmt.setString(2, groupKeyword);
 		        pstmt.setString(3, name);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		        pstmt.executeUpdate();
+		 } catch (SQLException e) {
 			System.out.println(e.getMessage());
-		}		
+		}	
 	}
 		
 		
-	public void addUsers(int id, String name) {
+	public void addUsers(int id, String name) throws SQLException {
 	 System.out.println("Please enter the username you would like"
 					 + "add to the Group.");
 	 String username = input.nextLine();
-	 	if (User.checkExistingUser(username).getString("name").equals(name)) { 
+	 User user = new User(conn);
+	 	if (user.checkExistingUser(username).getString("name").equals(name)) { 
 	 	 String usersselect = "SELECT Username FROM Users WHERE Discoverable==true";
-		 try (Connection conn = this.connect(); 
-		     Statement stmt  = conn.createStatement();
-		     ResultSet queryresult = stmt.executeQuery(usersselect)) {
+		 try  {
+			 Statement stmt  = conn.createStatement();
+		     ResultSet queryresult = stmt.executeQuery(usersselect);
 			while (queryresult.next()) {
 				System.out.println("Username:" + queryresult.getString("Username") + "\t" + 
 					 	"Email:" +	queryresult.getString("email"));
@@ -58,8 +67,8 @@ public class MsgGroup extends User {
 			 }
 			 String sql = "INSERT INTO GroupUserRelations (RelUsername, RelMsgGroup)  "
 						+ "VALUES (username,id)";
-			 try (Connection conn = this.connect();
-					 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			 try {
+				 PreparedStatement pstmt = conn.prepareStatement(sql);
 				 pstmt.setString(1, username);
 				 pstmt.setInt(2, id);
 				 pstmt.executeUpdate();
