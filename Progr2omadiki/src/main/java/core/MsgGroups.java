@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class MsgGroups extends User {
+public class MsgGroups extends Users {
  public MsgGroups(Connection conn) {
 		super(conn);
 		// TODO Auto-generated constructor stub

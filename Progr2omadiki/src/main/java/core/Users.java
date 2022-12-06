@@ -1,3 +1,5 @@
+package core;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,7 +8,7 @@ import java.util.Scanner;
 import java.sql.Connection;
 import java.util.Random;
 
-public class User {
+public class Users {
     Connection conn;
     Scanner in = new Scanner(System.in);
     Random r = new Random();

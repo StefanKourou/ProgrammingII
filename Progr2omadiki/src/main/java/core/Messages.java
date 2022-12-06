@@ -1,4 +1,6 @@
-public class Message {
+package core;
+
+public class Messages {
 	
 	//Pairnw to connection apo ton hlia
 
