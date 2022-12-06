@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.sql.Connection;
 import java.util.Random;
 
-public class Users {
+public class User {
     Connection conn;
     Scanner in = new Scanner(System.in);
     Random r = new Random();
