@@ -1,4 +1,4 @@
-package core;
+//package core;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,13 +9,16 @@ public class Connect {
     public static void connect() {
         Connection conn = null;
         try {
+            Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:C:/sqlite/db/Progr2.db";
             conn = DriverManager.getConnection(url);
             
             System.out.println("Connection to SQLite has been established.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
+        } catch (ClassNotFoundException e) { 
+            System.err.println(e);
+        }finally {
             try {
                 if (conn != null) {
                     conn.close();
