@@ -34,7 +34,8 @@ public class Connect {
     public static void main(String[] args) {
         connect();
         try {
-			final Process driver = new ProcessBuilder("CMD", "/C", "java -classpath C:\\sqlite\\sqlite-jdbc-3.40.0.0.jar").start();
+			final ProcessBuilder driver = new ProcessBuilder("CMD", "/C", "java -classpath C:\\sqlite\\sqlite-jdbc-3.40.0.0.jar");
+			((ProcessBuilder) driver).start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -14,27 +14,27 @@ public class SocialMain {
         System.out.println("Welcome! Please enter a valid UserName:");
         String x;
         do{
-            flag = false;
-            x = in.nextLine();
-            for (int i = 0; i < user.size(); i++){
-                if (x.equals(user.get(i))) {
-                    flag = true;
+            this.flag = false;
+            x = this.in.nextLine();
+            for (int i = 0; i < this.user.size(); i++){
+                if (x.equals(this.user.get(i))) {
+                    this.flag = true;
                     System.err.println("This Username is already in use!");
                     System.out.println("Please choose a different UserName:");
                     break;
                 }
             }
-        } while(flag);
-        user.add(x);
-        createPw(user.size()-1);
+        } while(this.flag);
+        this.user.add(x);
+        createPw(this.user.size()-1);
     }
     
     public void createPw(int i) {
         String pw;
-        flag = true;
+        this.flag = true;
         do {
             System.out.println("Choose a password:");
-            pw= in.nextLine();
+            pw= this.in.nextLine();
            // System.out.println(x<5?"Your password is really weak!":x<10?"Your password is weak!":flag=false);
             if (pw.length() < 5) {
                 System.out.println("Your password is really weak!");;
@@ -42,10 +42,10 @@ public class SocialMain {
                 System.out.println("Your password is weak!");
             } else {
                 System.out.println("Strong password!");
-                flag = false;
+                this.flag = false;
             }
-        } while(flag);
-        password.add(i,pw);
+        } while(this.flag);
+        this.password.add(i,pw);
     }
 
 }

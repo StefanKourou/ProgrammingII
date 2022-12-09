@@ -10,8 +10,7 @@ public class Messages {
 			FROM Messages;
 			WHERE GroupID=2 //EDW THA PAIRNOUME INPUT APO TH MSGGROUPS!!!;
 			ORDER BY MsgCreationTime ASC;
-			LIMIT 10;
-		";
+			LIMIT 10;";
 
 	        try (Connection conn = this.connect(); // Hlias: tha exeis to conn obj apo thn Connect class, den xreiazetai na to dhmiourgeis 
 	             Statement stmt  = conn.createStatement();
@@ -75,11 +74,11 @@ public class Messages {
     	}
 
     	public static void main(String[] args) {           //theloume 3 main? // OXI, TI ENNOEIS
-	    	Message msgGroups = new Message();
+	    	Messages msgGroups = new Messages();
 	        msgGroups.showMessage();
-	        Message newMessage = new Message();
+	        Messages newMessage = new Messages();
 	        newMessage.createMessage();
-	        Message reactionMessage = new Message();
-	        newReaction.reactionMessage();
+	        Messages newReaction = new Messages();
+	        newReaction.reactionsMessage();
     	}
     }

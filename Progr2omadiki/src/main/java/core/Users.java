@@ -8,18 +8,19 @@ import java.util.Scanner;
 import java.sql.Connection;
 import java.util.Random;
 
-public class User {
+
+public class Users {
     Connection conn;
     Scanner in = new Scanner(System.in);
     Random r = new Random();
 
-    public User(Connection conn) {
+    public Users(Connection conn) {
         this.conn = conn;
     }
 
 	public void registerNewUser() {
 	        while (true) {
-	            String name = in.nextLine();
+	            String name = this.in.nextLine();
 	            try {
 	                if (checkExistingUser(name).getString("name").equals(name)) {
 	                    System.out.println("User with username: " + name + " already exists!");
@@ -40,7 +41,7 @@ public class User {
         String sql = "SELECT name FROM USERS WHERE NAME=" + name;
         ResultSet result = null;
         try {
-            Statement stm = conn.createStatement();
+            Statement stm = this.conn.createStatement();
             result = stm.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +52,7 @@ public class User {
     public String createPw() {
         System.out.print("Please choose a valid Password, or type 'help' to get an auto-generated one: ");
         while (true) {
-            String pw = in.nextLine();
+            String pw = this.in.nextLine();
             if (!pw.equals("help")) {
                 if (pw.length() <= 5
                         || (!pw.contains("!") && !pw.contains("@") && !pw.contains("#") && !pw.contains("$"))) {
@@ -64,20 +65,19 @@ public class User {
                 String an = "0123456789abcdefghijklmnopqrstuvwxyz!@#$";
                 while (true) {
                     StringBuilder agpw = new StringBuilder();
-                    int len = r.nextInt(10) + 6;
+                    int len = this.r.nextInt(10) + 6;
                     int s = 1;
                     for (int i = 0; i < len; i++) {
-                        s = r.nextInt(39) + 1;
+                        s = this.r.nextInt(39) + 1;
                         agpw.append(an.substring(s, s + 1));
                     }
                     System.out.println("Your generated password is: " + agpw + " , good choice!");
                     System.out.print("Want to generate a new one? (Y/N) : ");
-                    String x = in.nextLine();
+                    String x = this.in.nextLine();
                     if (x.equals("Y")) {
                         continue;
-                    } else {
-                        return agpw.toString();
                     }
+					return agpw.toString();
                 }
             }
         }
@@ -86,14 +86,13 @@ public class User {
     public String createEmail() {
         System.out.print("Please enter your email: ");
         while (true) {
-            String email = in.nextLine();
+            String email = this.in.nextLine();
             if (email.contains("@") && ((email.contains(".com") || email.contains(".gr")))) {
                 System.out.println("Valid email sucessfully registered!");
                 return email;
-            } else {
-                System.out.println("Invalid email!");
-                System.out.print("Please enter a valid email: ");
             }
+			System.out.println("Invalid email!");
+			System.out.print("Please enter a valid email: ");
         }
 
     }
@@ -101,7 +100,7 @@ public class User {
     public void inserUserInDB(String name, String pw, String email, String login_time) {
         String sql = "INSERT INTO USERS(Username, Password, Email, LoginTime) VALUES(?, ?, ?, ?)";
         try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = this.conn.prepareStatement(sql);
             ps.setString(1, name);
             ps.setString(2, pw);
             ps.setString(3, email);
