@@ -27,8 +27,11 @@ public class Users {
 	                    System.out.println("Please choose a different UserName: ");
 	                } else {
 	                    String pw = createPw();
+	                    String discover = creatediscover();
 	                    String email = createEmail();
-	                    inserUserInDB(name, pw, email, "login_time");
+	                    String real = createReal();
+	                    String logintime = createLogTime();
+	                    inserUserInDB(name, pw, discover, email, real, logintime);
 
 	                }
 	            } catch (SQLException e) {
@@ -97,14 +100,16 @@ public class Users {
 
     }
 
-    public void inserUserInDB(String name, String pw, String email, String login_time) {
-        String sql = "INSERT INTO USERS(Username, Password, Email, LoginTime) VALUES(?, ?, ?, ?)";
+    public void inserUserInDB(String name, String pw, String discover, String email, String real, String logintime) {
+        String sql = "INSERT INTO Users (Username, Password, Discoverable, Email, RealName, LastLoginTime) VALUES(?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = this.conn.prepareStatement(sql);
             ps.setString(1, name);
             ps.setString(2, pw);
-            ps.setString(3, email);
-            ps.setString(4, login_time);
+            ps.setString(3, discover);
+            ps.setString(4, email);
+            ps.setString(5, real);
+            ps.setString(6, logintime);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
