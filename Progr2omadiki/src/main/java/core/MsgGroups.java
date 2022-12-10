@@ -10,37 +10,38 @@ import java.sql.Statement;
 public class MsgGroups extends Users {
  public MsgGroups(Connection conn) {
 		super(conn);
-		// TODO Auto-generated constructor stub
 	}
 
-
 Scanner input = new Scanner(System.in);
-	public void createMsgGroup(String name) {
+
+public void createMsgGroup() {
 		System.out.println("Please insert a name for your MessageGroup");
 		String groupName= this.input.nextLine();
-		System.out.println("Now insert the group's theme");
-		String groupKeyword = this.input.nextLine();
-		String sql = "INSERT INTO MsgGroups (MsgGroupName, GroupKeywords, MsgGroupCreator) "
-						+ "VALUES (groupName, groupKeyword, name)";
+		System.out.println("Now insert the group's theme with a few keywords");
+		String groupKeywords = this.input.nextLine();
+		String groupCreator = Users.loggedUser;  // εδω παει η μεταβλητη του loggeduser απο τα παιδια//  
+		String sql = "INSERT INTO MsgGroups (MsgGroupName, MsgGroupKeywords, MsgGroupCreator) VALUES (?, ?, ?)";
 		 try  { 
 			 PreparedStatement pstmt = this.conn.prepareStatement(sql);
 		        pstmt.setString(1, groupName);
-		        pstmt.setString(2, groupKeyword);
-		        pstmt.setString(3, name);
+		        pstmt.setString(2, groupKeywords);
+		        pstmt.setString(3, groupCreator);
 		        pstmt.executeUpdate();
 		 } catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}	
 	}
+
+
+	public void addUsers(int id, String name) 
 		
+			throws SQLException {
+		System.out.println("Please enter the username you would like to add to the Group.");
 		
-	public void addUsers(int id, String name) throws SQLException {
-	 System.out.println("Please enter the username you would like"
-					 + "add to the Group.");
-	 String username = this.input.nextLine();
-	 Users user = new Users(this.conn);
+		String username = this.input.nextLine();
+		Users user = new Users(this.conn);
 	 	if (user.checkExistingUser(username).getString("name").equals(name)) { 
-	 	 String usersselect = "SELECT Username FROM Users WHERE Discoverable==true";
+	 	 String usersselect = "SELECT Username FROM Users WHERE Discoverable=1";
 		 try  {
 			 Statement stmt  = this.conn.createStatement();
 		     ResultSet queryresult = stmt.executeQuery(usersselect);
@@ -51,8 +52,7 @@ Scanner input = new Scanner(System.in);
 			 } catch (SQLException e) {
 		            System.out.println(e.getMessage());
 			 }
-			 String sql = "INSERT INTO GroupUserRelations (RelUsername, RelMsgGroup)  "
-						+ "VALUES (username,id)";
+			 String sql = "INSERT INTO GroupUserRelations (RelUsername, RelMsgGroup) VALUES (?, ?)";
 			 try {
 				 PreparedStatement pstmt = this.conn.prepareStatement(sql);
 				 pstmt.setString(1, username);
@@ -63,7 +63,7 @@ Scanner input = new Scanner(System.in);
 			 }		
 		 	 System.out.println("User added successfully!");
 	 		} else {
-			 System.out.println("Username was not found, try again!");
+			 System.out.println("Username was not found or doesn't want to be found... try again!");
 			 }
 		}
 }
