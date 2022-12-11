@@ -13,7 +13,7 @@ public class User {
     Connection conn;
     Random r;
     Scanner in = new Scanner(System.in);
-    String name; 
+    String name; // edw o giannis tha vazei to onoma tou xrhsth otan kanei login kai tha borei na to xrhsimopoihsei h iwanna gia to logout
 
     public static void main(String[] args) {
         Connection conn = null;
@@ -49,7 +49,6 @@ public class User {
 	                    System.err.println("User with username: " + name + " already exists!");
 	                    System.out.println("Please choose a different UserName: ");
 	                } else {
-	                    this.name = name; 
                         String pw = createPw(); // create password
 	                    String email = createEmail(); // create email
                         String temp = createKword(); // temporary 
