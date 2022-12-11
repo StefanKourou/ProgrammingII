@@ -14,27 +14,6 @@ public class User {
     Random r;
     Scanner in = new Scanner(System.in);
     String name; // edw mpainei to onoma tou xrhsth pou einai logged in ayth thn stigmh(to vazei h login method)
-
-    public static void main(String[] args) {
-        Connection conn = null;
-        try {
-            String url = "C:/sqlite/db/Progr2.db";
-            conn = DriverManager.getConnection(url);
-
-            System.out.println("Connection to SQLite has been established.");
-            
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
            
     public User(Connection conn) {
         this.conn = conn;
@@ -136,7 +115,7 @@ public class User {
     }
 
     // inserts a user tuple in the DB
-    public void insertUserInDB(String name, String pw, String email, String kword) {
+    public void inserUserInDB(String name, String pw, String email, String kword) {
         String sql = "INSERT INTO USERS(Username, Password, Email, UserKeywords) VALUES(?, ?, ?, ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
