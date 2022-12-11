@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class MsgGroups extends Users {
+public class MsgGroups extends User {
 	
 	public MsgGroups(Connection conn) {
 		super(conn);
@@ -53,8 +53,7 @@ public class MsgGroups extends Users {
 		System.out.println("Please enter the username you would like"
 					 + "add to the Group.");
         	String username = input.nextLine();
-        	User user = new User(conn);
-		if (user.checkExistingUser(username).getString("name").equals(name)) { 
+		if (checkExistingUser(name)) { 
 			String usersselect = "SELECT Username FROM Users WHERE Discoverable==true";
 			try  {
 				Statement stmt  = conn.createStatement();
