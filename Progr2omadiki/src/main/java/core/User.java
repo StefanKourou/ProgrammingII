@@ -13,6 +13,7 @@ public class User {
     Connection conn;
     Random r;
     Scanner in = new Scanner(System.in);
+    String name; // edw o giannis tha vazei to onoma tou xrhsth otan kanei login kai tha borei na to xrhsimopoihsei h iwanna gia to logout
 
     public static void main(String[] args) {
         Connection conn = null;
@@ -48,7 +49,7 @@ public class User {
 	                    System.err.println("User with username: " + name + " already exists!");
 	                    System.out.println("Please choose a different UserName: ");
 	                } else {
-	                    String pw = createPw(); // create password
+                        String pw = createPw(); // create password
 	                    String email = createEmail(); // create email
                         String temp = createKword(); // temporary 
                         String kword = (!temp.equals("-1")?temp:null); // if user didn't give Keyword, insert null
@@ -132,7 +133,7 @@ public class User {
     }
 
     // inserts a user tuple in the DB
-    public void inserUserInDB(String name, String pw, String email, String kword) {
+    public void insertUserInDB(String name, String pw, String email, String kword) {
         String sql = "INSERT INTO USERS(Username, Password, Email, UserKeywords) VALUES(?, ?, ?, ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
