@@ -23,16 +23,16 @@ public class Messages {
 	            			   queryresult.getString("MsgUsername"));
 	                }
 	        } catch (SQLException e) {
-	        	System.out.println(e.getMessage());
+	        	System.out.println("There are no new messages. Try again later!");
 	        }
     	}
 
-    	public void createMessage() {
+    	public void createMessage(String msgText) {
 		String newMessage =
 			"INSERT INTO Messages (
 		        Username, GroupID, MsgText, MsgCreationTime)  //USERNAME APO TH LOGIN GROUPID APO TH MESSAGE GROUP
 				VALUES (			// Hlias: prepei na pairines os orisma to MsgText
-				‘Spinelis’, 2, ‘ãéá íá äïõìå ðùò öôéá÷íåôáé’, DATETIME('now','localtime')) // pithanotata xrhsimopoihsh ths getTime() / getDate?
+				‘Spinelis’, 2, ' + msgText + 'dwuduwd, DATETIME('now','localtime')) // pithanotata xrhsimopoihsh ths getTime() / getDate?
 				";
 
 		try (Connection conn = this.connect();
@@ -47,7 +47,7 @@ public class Messages {
 		            			   queryresult.getString("MsgCreationTime"));
 		        }
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Oops! Something went wrong!");
 		}
 		//query like showMessage
     	}
