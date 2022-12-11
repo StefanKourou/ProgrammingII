@@ -136,7 +136,7 @@ public class User {
     }
 
     // inserts a user tuple in the DB
-    public void inserUserInDB(String name, String pw, String email, String kword) {
+    public void insertUserInDB(String name, String pw, String email, String kword) {
         String sql = "INSERT INTO USERS(Username, Password, Email, UserKeywords) VALUES(?, ?, ?, ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
