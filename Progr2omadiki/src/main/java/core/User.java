@@ -13,7 +13,7 @@ public class User {
     Connection conn;
     Random r;
     Scanner in = new Scanner(System.in);
-    String name; // edw o giannis tha vazei to onoma tou xrhsth otan kanei login kai tha borei na to xrhsimopoihsei h iwanna gia to logout
+    String name; // edw mpainei to onoma tou xrhsth pou einai logged in ayth thn stigmh(to vazei h login method)
 
     public static void main(String[] args) {
         Connection conn = null;
@@ -54,6 +54,9 @@ public class User {
                         String temp = createKword(); // temporary 
                         String kword = (!temp.equals("-1")?temp:null); // if user didn't give Keyword, insert null
 	                    inserUserInDB(name, pw, email, kword); // insert the tuple in the DB
+                        System.out.println("Account Successfully created!");
+                        System.out.println("Login:");
+                        // kalw thn login
                         break;
                     } 
 	        }
