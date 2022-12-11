@@ -6,11 +6,11 @@ public class Messages {
 
 	public void showMessage() {
 	        String msgGroups =
-	        "SELECT MsgText, MsgUsername;
-			FROM Messages;
-			WHERE GroupID=2 //EDW THA PAIRNOUME INPUT APO TH MSGGROUPS!!!;
-			ORDER BY MsgCreationTime ASC;
-			LIMIT 10;
+	        "SELECT MsgText, MsgUsername
+			FROM Messages
+			WHERE GroupID=2 //EDW THA PAIRNOUME INPUT APO TH MSGGROUPS!!!
+			ORDER BY MsgCreationTime ASC
+			LIMIT 10
 		";
 
 	        try (Connection conn = this.connect(); // Hlias: tha exeis to conn obj apo thn Connect class, den xreiazetai na to dhmiourgeis 
