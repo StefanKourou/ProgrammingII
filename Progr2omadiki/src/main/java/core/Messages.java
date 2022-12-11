@@ -1,10 +1,9 @@
 package core;
 
 public class Messages {
-	
+	Scanner in;
 	//Pairnw to connection apo ton hlia
-
-	public void showMessage() {
+	public void showLastMessages() {
 	        String msgGroups =
 	        "SELECT MsgText, MsgUsername
 			FROM Messages
@@ -31,18 +30,18 @@ public class Messages {
 		String newMessage =
 			"INSERT INTO Messages (
 		        Username, GroupID, MsgText, MsgCreationTime)  //USERNAME APO TH LOGIN GROUPID APO TH MESSAGE GROUP
-				VALUES (			// Hlias: prepei na pairines os orisma to MsgText
-				‘Spinelis’, 2, ' + msgText + 'dwuduwd, DATETIME('now','localtime')) // pithanotata xrhsimopoihsh ths getTime() / getDate?
+				VALUES (			
+				‘Spinelis’, 2, " + msgText + ", DATETIME('now','localtime')) 
 				";
 
-		try (Connection conn = this.connect();
+		try (Connection conn = this.connect(); //
 		     Statement stmt  = conn.createStatement();
 		     ResultSet queryresult = stmt.executeQuery(newMessage)) {
 
 		        // loop through the result set
 		        while (queryresult.next()) {
-		        	System.out.println(queryresult.getString("Username") + "\t" +
-		            			   queryresult.getString("GroupID") + "\t" +
+		        	System.out.println(queryresult.getString("MsgUsername") + "\t" +
+		            			   queryresult.getString("MsgGroup") + "\t" +
 		            			   queryresult.getBoolean("MsgText") + "\t" +
 		            			   queryresult.getString("MsgCreationTime"));
 		        }
@@ -51,12 +50,38 @@ public class Messages {
 		}
 		//query like showMessage
     	}
+	
+	public void showMessageInfo(int id) {
+	 String msgInfo = "SELECT MsgUsername, MsgGroup, MsgText, MsgCreationTime FROM Messages where MsgID ="+id;
+        
+        try (Connection conn = this.connect(); // 
+             Statement stmt  = conn.createStatement();
+             ResultSet queryresult = stmt.executeQuery(msgInfo)){
+            
+            // loop through the result set
+            while (queryresult.next()) {
+            	System.out.println(queryresult.getString("MsgUsername") + "\t" + 
+            			queryresult.getString("MsgGroup") + "\t" +
+            			queryresult.getBoolean("MsgText") + "\t" +
+            			queryresult.getString("MsgCreationTime");
+				System.out.println("Do you wish to react to this message?");
+				System.out.println("1: like, 2: dislike, 3: heart, or 4: no");
+				in = new Scanner(System.in);
+				int re = in.nextInt();
+				if (re != 4) reactionsMessage(id, re);
+            }
+        } catch (SQLException e) {
+            System.out.println("Oops! Something went wrong!");
+        }
+    }
+	
+	}
+		
 
-    	public void reactionsMessage() {
+    	public void reactionsMessage(int id, int re) {
 		String newReaction =
-		"INSERT INTO Reactions (MsgID, Username, Reaction)
-		 VALUES (10, ‘testuser3’, 1)              //same me panw
-		";
+		"INSERT INTO Reactions (ReMsg, ReUsername, Reaction)
+		 VALUES (" + id + ", ‘loginUsername’," + re + ")"; // sto 'loginUsername' tha einai o xrhsths poy einai logged in
 
 		try (Connection conn = this.connect();
 			Statement stmt  = conn.createStatement();
@@ -69,7 +94,7 @@ public class Messages {
 			            		   queryresult.getBoolean("Reaction"));
 			  	}
 			} catch (SQLException e) {
-				System.out.println(e.getMessage());
+				System.out.println("Oops! Something went wrong!");
 			}
 			//query like showMessage
     	}
@@ -81,5 +106,6 @@ public class Messages {
 	        newMessage.createMessage();
 	        Message reactionMessage = new Message();
 	        newReaction.reactionMessage();
+
     	}
     }
