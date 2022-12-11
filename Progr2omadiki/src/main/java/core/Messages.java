@@ -8,7 +8,7 @@ public class Messages {
 	        String msgGroups =
 	        "SELECT MsgText, MsgUsername
 			FROM Messages
-			WHERE GroupID=2 //EDW THA PAIRNOUME INPUT APO TH MSGGROUPS!!!
+			WHERE GroupID=2 //EDW THA PAIRNOUME INPUT APO TH MSGGROUPS!!!   <<<< TSAKALOS GRAFEI TO MAX
 			ORDER BY MsgCreationTime ASC
 			LIMIT 10
 		";
