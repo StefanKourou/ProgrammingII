@@ -52,34 +52,35 @@ public class MsgGroups extends Users {
 	public void addUsers(int id, String name) throws SQLException {
 		System.out.println("Please enter the username you would like"
 					 + "add to the Group.");
-        String username = input.nextLine();
-        User user = new User(conn);
-	if (user.checkExistingUser(username).getString("name").equals(name)) { 
-		String usersselect = "SELECT Username FROM Users WHERE Discoverable==true";
-		try  {
-			Statement stmt  = conn.createStatement();
-			ResultSet queryresult = stmt.executeQuery(usersselect);
-		  	while (queryresult.next()) {
-		        	System.out.println("Username:" + queryresult.getString("Username") + "\t" + 
-					 	   "Email:" +	queryresult.getString("email"));
-		 	}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-			String sql = "INSERT INTO GroupUserRelations (RelUsername, RelMsgGroup)  "
-						+ "VALUES (username,id)";
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, username);
-			pstmt.setInt(2, id);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}		
-		System.out.println("User added successfully!");
-	} else {
+        	String username = input.nextLine();
+        	User user = new User(conn);
+		if (user.checkExistingUser(username).getString("name").equals(name)) { 
+			String usersselect = "SELECT Username FROM Users WHERE Discoverable==true";
+			try  {
+				Statement stmt  = conn.createStatement();
+				ResultSet queryresult = stmt.executeQuery(usersselect);
+		  		while (queryresult.next()) {
+		        		System.out.println("Username:" + queryresult.getString("Username") + "\t" + 
+					 	   	"Email:" +	queryresult.getString("email"));
+		 		}
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+				String sql = "INSERT INTO GroupUserRelations (RelUsername, RelMsgGroup)  "
+					      + "VALUES (username,id)";
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, username);
+				pstmt.setInt(2, id);
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}		
+			System.out.println("User added successfully!");
+		} else {
 	 	System.out.println("Username was not found, try again!");
-	}
+		}
 	}
 }
+
 
