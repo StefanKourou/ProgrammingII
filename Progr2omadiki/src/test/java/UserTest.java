@@ -1,8 +1,8 @@
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
 
 public class UserTest {
 
-    @before 
+    @BeforeEach 
     void setUp() {
         Connection conn = Connect.connect(); // establishing connection with the DB
         Statement stm = conn.createStatement();
