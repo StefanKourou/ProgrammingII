@@ -1,6 +1,4 @@
-import org.junit.Test;
-import java.sql.Connection;
-import org.sql.Statement;
+import org.junit.jupiter.api.*;
 
 public class UserTest {
 
