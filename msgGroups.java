@@ -5,6 +5,7 @@ public class msgGroups extends {
         Connection c = null;
         Connection c2 = null;
         Statement stmt = null;
+        Message ms = new Message();
         try {
             Class.forName("org.sqlite.JBDC");
             c = DriverManager.getConnection("MsgGroups.db");
@@ -14,9 +15,7 @@ public class msgGroups extends {
             ResultSet rs = stmt.executeQuery("SELECT MsgGroupID, MsgGroupName FROM MsgGroups, GroupUsersRelations WHERE MsgGroups.MsgGroupID = GroupUsersRelations.GroupID AND GroupUsersRelations.Username='userName'");
             while (rs.next()) {
                 int id = rs.getInt("MsgGroupID");
-                String name = rs.getString("MsgGroupName");
-                System.out.println("Message Group ID = " + id);
-                System.out.println("Message Group Name = " + name); 
+                ms.showMessage(id) //καλώ την μέθοδο του Μανώλη//
             }
             rs.close();
             stmt.close();
