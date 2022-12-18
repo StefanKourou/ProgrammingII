@@ -12,7 +12,9 @@ public class msgGroups extends {
             c2 = DriverManager.getConnection("GroupUsersRelations");
             c.setAutoCommit(false);
             c2.setAutoCommit(false);
-            ResultSet rs = stmt.executeQuery("SELECT MsgGroupID, MsgGroupName FROM MsgGroups, GroupUsersRelations WHERE MsgGroups.MsgGroupID = GroupUsersRelations.GroupID AND GroupUsersRelations.Username='userName'");
+            ResultSet rs = stmt.executeQuery("SELECT MsgGroupID, MsgGroupName FROM MsgGroups, GroupUsersRelations 
+                                             WHERE MsgGroups.MsgGroupID = GroupUsersRelations.GroupID 
+                                             AND GroupUsersRelations.Username="+loggedUsername+"'");
             while (rs.next()) {
                 int id = rs.getInt("MsgGroupID");
                 ms.showMessage(id) //καλώ την μέθοδο του Μανώλη//
