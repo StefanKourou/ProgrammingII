@@ -16,7 +16,8 @@ public class Logout {
 	    	respond1 = input.readLine();
 	    }
 		if (respond1.equals("YES")) {
-                String sql1 = "UPDATE Users SET LastLogoutTime = DATETIME('now','localtime') WHERE Username=" + loggedUsername;
+                String sql1 = "UPDATE Users SET LastLogoutTime = DATETIME('now','localtime') WHERE Username = ' " + loggedUsername + " ' ";
+		PreparedStatement ps = conn.prepareStatement(sql1);
                 //remember the logout date
 			    //go to login page
 		} else {
