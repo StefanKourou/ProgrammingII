@@ -29,11 +29,10 @@ public class Logout {
 	    	}
 			if (respond2.equals(1)) {
 				MessageGroup a =  new MessageGroup();
-				a.;
+				a.();
 			} else {
 				Message b = new Message();
-				b.;
-			}
+				b.createMessage("");
 			//go to messengers page
 		}
 	}
