@@ -1,4 +1,6 @@
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -17,9 +19,14 @@ public class Logout {
 	    }
 		if (respond1.equals("YES")) {
                 String sql1 = "UPDATE Users SET LastLogoutTime = DATETIME('now','localtime') WHERE Username = ' " + loggedUsername + " ' ";
-		PreparedStatement ps = conn.prepareStatement(sql1);
+		try {
+                	PreparedStatement ps = conn.prepareStatement(sql1);
+                	ps.executeUpdate();
+                } catch (Exception e) {
+                	System.out.println("Something went wrong while loging out");
+                }
                 //remember the logout date
-			    //go to login page
+	       //go to login page
 		} else {
 			System.out.println("If you want to return in an online group conversation press 1, else if you want to return in an online private conversation press 2");
 			String respond2 = input.readLine();
