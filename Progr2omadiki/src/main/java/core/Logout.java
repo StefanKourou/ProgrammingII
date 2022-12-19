@@ -28,13 +28,15 @@ public class Logout {
 	    		respond2 = input.readLine();
 	    	}
 			if (respond2.equals(1)) {
-				MessageGroup a =  new MessageGroup();
-				a.();
+				MsgGroups a =  new MsgGroups();
+				System.out.println("Write your message");
+				String respond3 = input.readLine();
+				a.showMsgGroups(respond3);
 			} else {
 				Messages b = new Messages();
 				System.out.println("Write your message");
-				String respond3 = input.readLine();
-				b.createMessage(respond3);
+				String respond4 = input.readLine();
+				b.createMessage(respond4);
 			//go to messengers page
 		}
 	}
