@@ -31,8 +31,10 @@ public class Logout {
 				MessageGroup a =  new MessageGroup();
 				a.();
 			} else {
-				Message b = new Message();
-				b.createMessage("");
+				Messages b = new Messages();
+				System.out.println("Write your message");
+				String respond3 = input.readLine();
+				b.createMessage(respond3);
 			//go to messengers page
 		}
 	}
