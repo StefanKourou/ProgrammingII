@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>Progr2</groupId>
   <artifactId>Progr2omadiki</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.2-BETA</version>
   <dependencies>
 
 
@@ -47,4 +47,9 @@
   		</dependency>
   	</dependencies>
   </dependencyManagement>
+  <organization>
+  	<name>AUEB DMST</name>
+  	<url>https://www.dept.aueb.gr/el/dmst</url>
+  </organization>
+  <name>Progr2 omadiki detarioi</name>
 </project>
