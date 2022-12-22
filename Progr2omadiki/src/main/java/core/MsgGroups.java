@@ -128,7 +128,8 @@ public class MsgGroups extends User {
             c2 = DriverManager.getConnection("GroupUsersRelations");
             c.setAutoCommit(false);
             c2.setAutoCommit(false);
-            ResultSet rs = stmt.executeQuery("SELECT MsgGroupID, MsgGroupName FROM MsgGroups, GroupUsersRelations WHERE MsgGroups.MsgGroupID = GroupUsersRelations.GroupID AND GroupUsersRelations.Username='"+loggedUsername+"'");
+            ResultSet rs = stmt.executeQuery("SELECT MsgGroupID, MsgGroupName FROM MsgGroups, GroupUsersRelations" +
+					     "WHERE MsgGroups.MsgGroupID = GroupUsersRelations.GroupID AND GroupUsersRelations.Username='"+loggedUsername+"'");
             while (rs.next()) {
                 int id = rs.getInt("MsgGroupID");
                 String name = rs.getString("MsgGroupName");
