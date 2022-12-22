@@ -3,11 +3,11 @@ package core;
 public class Messages {
 	Scanner in;
 	//Pairnw to connection apo ton hlia
-	public void showLastMessages() {
+	public void showLastMessages(int GroupID) {
 	        String msgGroups =
 	        "SELECT MsgText, MsgUsername
 			FROM Messages
-			WHERE GroupID=2 //EDW THA PAIRNOUME INPUT APO TH MSGGROUPS!!!   <<<< TSAKALOS GRAFEI TO MAX
+			WHERE GroupID="+GroupID" //EDW THA PAIRNOUME INPUT APO TH MSGGROUPS!!!   <<<< TSAKALOS GRAFEI TO MAX
 			ORDER BY MsgCreationTime ASC
 			LIMIT 10
 		";
