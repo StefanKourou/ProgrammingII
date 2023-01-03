@@ -2,19 +2,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.security.interfaces.RSAKey;
 import java.sql.Connection;
-import java.util.Scanner;
+
+/**
+* Contains all Message related operations given a groupID.
+* Authors: Giorgos Tsakalos, Manolis Gialouris, Ilias Mpourdakos, Stefanos Kouroupakis.
+*/
 
 public class Message extends MsgGroup {
 
-    int groupID; // The Group that we are right now
+	/** 
+	 * The Group that the user is right now
+	 * it's being set by the showLastMessages(int) method
+	*/
+    int groupID; 
+
+	/** 
+	 * passes the Connection object to the super-class.
+	 */
 
     public Message(Connection conn) {
         super(conn);
     }
 
-	// shows last 10 msgs of the group selected
+	/**  
+	 * shows the last 10 Messages of a group
+	 * @param groupID the groupID of the said group
+	*/
+
 	public void showLastMessages(int groupID) {
 		in.nextLine(); // clear the buffer
 		this.groupID = groupID;
@@ -24,6 +39,14 @@ public class Message extends MsgGroup {
 						"FROM Messages " +
 						"WHERE MsgGroup = " + groupID;
 	    try (Statement stmt  = conn.createStatement();) {
+			System.out.print("Opening Group");
+			Thread.sleep(500);
+			System.out.print(".");
+			Thread.sleep(500);
+			System.out.print(".");
+			Thread.sleep(500);
+			System.out.print(".");
+			Thread.sleep(500);
 			do {
 				ResultSet rs = stmt.executeQuery(sqltest);
 				clearScreen();
@@ -80,7 +103,10 @@ public class Message extends MsgGroup {
 	    } catch (InterruptedException e) {}
     }
 
-	// creates a msg for the said group(look instance variable)
+	/**  
+	 * creates a new Message for a Group
+	 * @param msgText the Message that will be sent to the group
+	*/
     public void createMessage(String msgText) {
 		String newMessage =
 		"INSERT INTO Messages (" +
@@ -94,7 +120,11 @@ public class Message extends MsgGroup {
 		}
     }
 	
-	// gives info about the msg with the id of msgID
+	/**  
+	 * shows info about a specific Message, including the MessageCreationTime
+	 * @param msgID the ID of the message that we want to see information about
+	*/
+
 	public void showMessageInfo(int msgID) {
 		clearScreen();
 		// check if this group has any msgs with the id of msgID
@@ -115,8 +145,14 @@ public class Message extends MsgGroup {
 				System.out.println("Do you wish to react to this message?");
 				System.out.println("1: like, 2: dislike, 3: heart");
 				System.out.println("4: go back");
-				in = new Scanner(System.in);
 				int re = in.nextInt();
+				while (re != 1 && re != 2 && re != 3 && re != 4){
+					clearScreen();
+					System.out.println("Invalid input, please type 1, 2, 3 or 4");
+					System.out.println("1: like, 2: dislike, 3: heart");
+					System.out.println("4: go back");
+					re = in.nextInt();
+				}
 				if (re != 4) reactionsMessage(msgID, re);
 			} else {
 				System.out.println("No Messages Found with the ID of " + msgID);
@@ -130,7 +166,11 @@ public class Message extends MsgGroup {
 		}
     }
 
-	// registers a reaction(re) to the msg with the id of msgID
+	/**  
+	 * Registers a reaction to a Message
+	 * @param msgID,re The ID of the Message and the reaction
+	*/
+
     public void reactionsMessage(int msgID, int re) {
         String newReaction =
         "INSERT INTO Reactions (ReMsg, ReUsername, Reaction)" +
@@ -140,7 +180,7 @@ public class Message extends MsgGroup {
 		} catch (SQLException e) {
 			clearScreen();
 			try {
-				System.err.println("Oops! Something went wrong when reacting to the message.(maybe you tried to react to the same message twice?)");	
+				System.err.println("Oops! Something went wrong when reacting to the message (maybe you tried to react to the same message twice?)");	
 				Thread.sleep(2000);	
 			} catch (InterruptedException ex) {}
 		}

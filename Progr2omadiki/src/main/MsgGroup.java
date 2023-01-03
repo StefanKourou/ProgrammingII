@@ -1,18 +1,27 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.security.cert.CertPathChecker;
 import java.sql.*;
+/** 
+ * Contains all MessageGroup related operations
+ * Authors: Theodora Iakovaki, Haris Barbaris, Ilias Mpourdakos
+*/
 
 public class MsgGroup extends User {
 
+	/**
+	 * passes the Connection object to the super-class
+	 */
 	public MsgGroup(Connection conn) {
 		super(conn);
 	}
 
-	// creates a new msg group for the logged in user
+	/**
+	 * creates a MsgGroup for the logged in user and inserts it to the Database.
+	 */
+
 	public void createMsgGroup() {
-		clearScreen();
 		in.nextLine(); // clear the buffer
+		clearScreen();
 		System.out.println("Please insert a name for your MessageGroup");
 		String groupName = in.nextLine();
 		System.out.println("Now insert the group's theme");
@@ -42,7 +51,11 @@ public class MsgGroup extends User {
 		 } catch (InterruptedException e) {}
 	}
 
-	// adds a user to said group, the ad parameter is used for the method to know how to calculate the GroupID
+	/**
+	 * adds a user to a group, takes a number (0,1) as an parameter
+	 * @param ad takes a binary number(0 or 1) so it can know how to calculate the said group (to know if the group has just been created or not)
+	 */
+	
 	public void addUser(int ad) {
 		while (true) {
 			clearScreen();
@@ -69,7 +82,7 @@ public class MsgGroup extends User {
 							pstmt.setInt(2, id);
 							pstmt.executeUpdate();
 						} else {
-							Message m = (Message)this; // downgrade this object so it can access the groupID
+							Message m = (Message) this; // downgrade this object so it can access the groupID
 							String sql = "INSERT INTO GroupUsersRelations (RelUsername, RelMsgGroup)  " +
 											"VALUES (?, ?)";
 							PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -118,7 +131,10 @@ public class MsgGroup extends User {
 		}
 	}
 
-	// shows all msg groups of the user logged in
+	/**
+	 *  shows all MessageGroups that the user owns/is a member of.
+	 */
+
 	public void showMsgGroups() {
         Message ms = (Message) this;
 		clearScreen();
@@ -128,8 +144,14 @@ public class MsgGroup extends User {
 							"(MsgGroups.MsgGroupID = GroupUsersRelations.RelMsgGroup " +
 							"AND GroupUsersRelations.RelUsername='" + loggedUsername + "')";
         try (Statement stmt = conn.createStatement();) {
-			System.out.println("Loading groups....");
-			Thread.sleep(1000);
+			System.out.print("Loading groups");
+			Thread.sleep(500);
+			System.out.print(".");
+			Thread.sleep(500);
+			System.out.print(".");
+			Thread.sleep(500);
+			System.out.print(".");
+			Thread.sleep(500);
 			ResultSet rs = stmt.executeQuery(sqltest);       
 			clearScreen();
 			// if the user has at least 1 group, show them to the screen
@@ -148,9 +170,6 @@ public class MsgGroup extends User {
 				}
 				System.out.println("Which message group would you like to open? Give id");
 				int groupID = in.nextInt();
-				clearScreen();
-				System.out.println("Opening Group...");
-				Thread.sleep(1000);
 				ms.showLastMessages(groupID);
 				rs.close();
 			} else {
@@ -159,10 +178,13 @@ public class MsgGroup extends User {
 			}
         } catch (SQLException e) {
             System.err.println("Oops, Something Went Wrong While Loading the Groups!");
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) { }
     }
 
-	// shows all msg groups of the logged in user that have new msgs, with the said msgs
+	/**
+	 * shows all MessageGroups of the logged in user that have new msgs, alongside said msgs
+	 */
+ 
 	public void showNewMessages() {
 		clearScreen();
 		// check if the user has any new messages (from all groups)
@@ -177,8 +199,14 @@ public class MsgGroup extends User {
 							"HAVING MAX(MsgID)";
 		try (Statement stmt = conn.createStatement();) {
 			Message ms = (Message)this;
-			System.out.println("Searching For New Messages...");
-			Thread.sleep(1000);
+			System.out.print("Searching For New Messages");
+			Thread.sleep(500);
+			System.out.print(".");
+			Thread.sleep(500);
+			System.out.print(".");
+			Thread.sleep(500);
+			System.out.print(".");
+			Thread.sleep(500);
 			ResultSet rs = stmt.executeQuery(sqltest);
 			// if the user has at least 1 new message, show all of them to the screen with the group
 			if (rs.getInt(1) > 0) {
@@ -199,11 +227,8 @@ public class MsgGroup extends User {
 									rs.getString("MsgText") + "\t" +
 									rs.getInt("max"));
 				}
-				System.out.println("Which message group would you like to open? Give id");
+				System.out.println("Which message group would you like to open? Type its id");
 				int groupID = in.nextInt();
-				clearScreen();
-				System.out.println("Opening Group...");
-				Thread.sleep(1000);
 				ms.showLastMessages(groupID);
 				rs.close();
 			} else {

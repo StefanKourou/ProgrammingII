@@ -6,18 +6,29 @@ import java.util.Scanner;
 import java.sql.Connection;
 import java.util.Random;
 
+/**
+ *  Responsible for basic User needs, such as Registration, Login and Logout and the main menu of the app.
+ *  Authors: Ilias Mpourdakos, Ioannis Papadakis, Ioanna Karitsioti
+*/
+
 public class User {
     Connection conn;
     Random r;
     Scanner in = new Scanner(System.in);
     String loggedUsername; // logged users' name (given by login method)
-    boolean wantsToLogout; 
+    boolean wantsToLogout;
+
+    /**
+    *  sets the Connection object with the signature of the Database.
+    */
 
     public User(Connection conn) {
         this.conn = conn;
     }
 
-    // registers a new user in the DB
+    /** 
+     * registers a new user in the Database.
+    */
 	public void registerNewUser() {
 	        while (true) {
                 System.out.println("Enter a username!");
@@ -38,12 +49,19 @@ public class User {
                         clearScreen();
 	                    inserUserInDB(name, pw, email, kword, disc); // insert the tuple in the DB
                         System.out.println("Account Successfully created!");
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {}
+                        clearScreen();
                         break;
                     } 
 	        }
     }
     
-    // returns true if user exists, or false differently
+    /** 
+     * returns true if the user exists, or false differently.
+     * @param name the user that we want to check 
+     */
     public boolean checkExistingUser(String name) {
         String sql = "SELECT COUNT(Username) as count " +
                      "FROM Users " +
@@ -58,7 +76,9 @@ public class User {
         return userExists;
     }
 
-    // creates a password for a user
+    /** 
+     *creates a password for a user
+     */
     public String createPw() {
         System.out.print("Please choose a valid Password, or type 'help' to get an auto-generated one: ");
         while (true) {
@@ -97,7 +117,9 @@ public class User {
         }
     }
 
-    // creates an email for a user
+     /**
+      * creates an email for a user
+      */
     public String createEmail() {
         System.out.print("Please enter your email: ");
         while (true) {
@@ -114,7 +136,9 @@ public class User {
 
     }
 
-    // creates a key word for a user
+    /**
+     *  creates a key word for a user
+     */
     public String createKword() {
         System.out.println("Please enter a hobby/thing you like, so we can better customize your experience!");
         System.out.println("or press -1 if you don't wish to");
@@ -122,7 +146,9 @@ public class User {
         return ans;
     }
 
-    // creates a discoverability preference for a user
+    /**
+     *  creates a discoverability preference for a user
+     */
     public int createDisc() {
         System.out.println("Would you like for others to discover you by name-search? 0 = no, 1 = yes");
         System.out.println("Keep in mind that if you press 1, other users can add you to groups without the need of your acceptance");
@@ -142,7 +168,9 @@ public class User {
         } while(true);
     }
 
-    // inserts a user tuple in the DB
+    /** 
+     *  inserts a user tuple in the Database
+     */
     public void inserUserInDB(String name, String pw, String email, String kword, int disc) {
         String sql = "INSERT INTO USERS(Username, Password, Email, UserKeywords, Discoverable)" +
                         "VALUES(?, ?, ?, ?, ?)";
@@ -158,7 +186,10 @@ public class User {
         }
     }
     
-    // verify the user about to login
+    /** 
+     *  verify the user about to login
+     *  Provides 5 options to the user (main menu), after successful login
+     */
     public void login() {
         String username;
         String password;
@@ -170,7 +201,7 @@ public class User {
             System.out.println("Please Insert Your Password:") ;
             password = in.nextLine();
             clearScreen();
-            if (checkExistingUser(username)){
+            if (checkExistingUser(username)) {
                 String sql = "SELECT Password " +
                                 "FROM Users " +
                                 "WHERE Username='" + username + "'";
@@ -236,8 +267,16 @@ public class User {
                         UserStats.setConn(conn);
                         UserStats.setLogName(loggedUsername);
                         clearScreen();
-                        UserStats.showFullStats(); // show full stats of logged in user
                         try {
+                            System.out.print("Retrieving Data");
+                            Thread.sleep(500);
+                            System.out.print(".");
+                            Thread.sleep(500);
+                            System.out.print(".");
+                            Thread.sleep(500);
+                            System.out.print(".");
+                            clearScreen();
+                            UserStats.showFullStats(); // show full stats of logged-in user
                             Thread.sleep(10000);
                         } catch (InterruptedException e) {}
                         break;
@@ -254,7 +293,10 @@ public class User {
         }
     }
 
-    // logout
+    /** 
+     * Logs out the logged-in user
+     * Updates the LastLogoutTime of said user
+    */
     public void doGet() {
         clearScreen();
         in.nextLine(); // clear the buffer
@@ -275,8 +317,14 @@ public class User {
                                 "WHERE Username = '" + loggedUsername + "'";
 		    try (Statement stmt = conn.createStatement();) {        
                 stmt.executeUpdate(sql);
-                System.out.println("Logging out...");
-                Thread.sleep(1000);
+                System.out.print("Logging out");
+                Thread.sleep(500);
+                System.out.print(".");
+                Thread.sleep(500);
+                System.out.print(".");
+                Thread.sleep(500);
+                System.out.print(".");
+                Thread.sleep(500);
             } catch (Exception e) {
                 System.err.println("Something Went Wrong While Logging Out!");
             }
@@ -284,7 +332,9 @@ public class User {
 		}
     }
 
-    // clears the CL Screen for better readability
+    /**
+     *  clears the CL Screen for better readability.
+    */
     public void clearScreen() {
         try {
             final String os = System.getProperty("os.name");
@@ -297,7 +347,9 @@ public class User {
         }
     }
 
-    // kills the CL Screen
+    /**  
+     * kills the CL Screen.
+     */
     public void killScreen() {
         try {
             Runtime.getRuntime().exec("taskkill /f /im cmd.exe") ;

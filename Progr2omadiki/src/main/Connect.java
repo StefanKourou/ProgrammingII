@@ -1,15 +1,19 @@
-// package net.Progr2;
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-
+/**
+ *  The main class of the program.
+ *  Authors: Ilias Mpourdakos, Stefanos Kouroupakis, Manolis Gialouris,
+ *  Giorgos Tsakalos, Ioannis Papadakis, Theodora Iakovaki,
+ *  Ioanna Karitsioti, Haris Barbaris
+*/
 
 public class Connect {
-
+    /**
+     * Establishes a connection to the Progr2 Database.
+     */
     public static Connection connect() {
         Connection conn = null;
         try {
@@ -22,19 +26,13 @@ public class Connect {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
-           /*  try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-    */ }
-            return conn;
+        }
+        return conn;
     }
         
     /**
      * @param args the command line arguments
+     * Contains the main screen of the program
      */
     public static void main(String[] args) {
         boolean end = false;
@@ -42,7 +40,7 @@ public class Connect {
         Connection conn = connect();
         Message obj = new Message(conn);
         obj.clearScreen();
-        System.out.println("---Welcome To UniTeD---");
+        System.out.println("---Welcome To UniTed---");
         do {
             try {
                 Thread.sleep(1050);
@@ -50,7 +48,7 @@ public class Connect {
             } catch (InterruptedException e) {}
             System.out.println("Press 1 to Sign in");
             System.out.println("Press 2 to Sign up");
-            System.out.println("Press 3 to Exit The App (sorry to see you go..)");
+            System.out.println("Press 3 to Exit The App (sorry to see you go...)");
             int ans;
             do {
                 ans = input.nextInt();
@@ -64,7 +62,7 @@ public class Connect {
                         obj.login();
                         break;
                     case 3:
-                        end = true;
+                        end = true; // user wants to exit the app
                         System.out.println("bye...");
                         try {
                             Thread.sleep(1000);
@@ -76,7 +74,6 @@ public class Connect {
                         System.out.println("Invalid input! please type 1, 2 or 3");
                         continue;
                 }
-                input.nextLine(); // clear the buffer
                 break;
             } while (true);
         } while (!end);
