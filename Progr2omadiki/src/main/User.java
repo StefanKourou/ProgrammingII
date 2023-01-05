@@ -60,8 +60,9 @@ public class User {
     
     /** 
      * returns true if the user exists, or false differently.
-     * @param name the user that we want to check 
-     */
+     * @param name the user that we want to check
+     * @return a boolean value(true/false)
+     */  
     public boolean checkExistingUser(String name) {
         String sql = "SELECT COUNT(Username) as count " +
                      "FROM Users " +
@@ -248,7 +249,7 @@ public class User {
             System.out.println("1 : See which of your groups have new messages");
             System.out.println("2 : See All Your Groups");
             System.out.println("3 : Create a Group");
-            System.out.println("4 : See Stats ");
+            System.out.println("4 : Profile");
             System.out.println("5 : Sign out");
             int ans;
             do {
@@ -264,8 +265,8 @@ public class User {
                         mg.createMsgGroup(); // go to the create new group screen
                         break;
                     case 4:
-                        UserStats.setConn(conn);
-                        UserStats.setLogName(loggedUsername);
+                        UserProfile.setConn(conn);
+                        UserProfile.setLogName(loggedUsername);
                         clearScreen();
                         try {
                             System.out.print("Retrieving Data");
@@ -276,8 +277,7 @@ public class User {
                             Thread.sleep(500);
                             System.out.print(".");
                             clearScreen();
-                            UserStats.showFullStats(); // show full stats of logged-in user
-                            Thread.sleep(10000);
+                            UserProfile.showProfile(); // show full stats of logged-in user
                         } catch (InterruptedException e) {}
                         break;
                     case 5:

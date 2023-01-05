@@ -64,9 +64,11 @@ public class MsgGroup extends User {
    			String name = in.nextLine();
 			String usersselect = "SELECT Discoverable " +
 										"FROM Users WHERE Username ='"+name+"'";
-			try (Statement stmt  = conn.createStatement();)  {
+			try (Statement stmt  = conn.createStatement();) {
+				// check if user exists
 				if (checkExistingUser(name)) {
 					ResultSet queryresult = stmt.executeQuery(usersselect);
+					// check if the user selected has his discoverable preference as 1
 					if (queryresult.getInt(1) == 1) {
 						if (ad == 1) {
 							// get the grouID(last group that was created)
@@ -168,9 +170,16 @@ public class MsgGroup extends User {
 					String name = rs.getString("MsgGroupName");
 					System.out.println(id + " " + name);
 				}
-				System.out.println("Which message group would you like to open? Give id");
+				System.out.println("Which message group would you like to open? Type its id");
 				int groupID = in.nextInt();
-				ms.showLastMessages(groupID);
+				// check if the User is a member/owner of the group
+				if (checkGroupUserExists(groupID)) {
+					ms.showLastMessages(groupID);
+				} else {
+					clearScreen();
+					System.out.println("No Group Found With The ID Of : " + groupID);
+					Thread.sleep(1500);
+				}
 				rs.close();
 			} else {
 				System.out.println("It looks like you don't have any groups yet!");
@@ -188,15 +197,13 @@ public class MsgGroup extends User {
 	public void showNewMessages() {
 		clearScreen();
 		// check if the user has any new messages (from all groups)
-		String sqltest = "SELECT COUNT(MsgGroupID) " +
-							"FROM MsgGroups, GroupUsersRelations, Messages, Users " +
- 							"WHERE MsgGroups.MsgGroupID = GroupUsersRelations.RelMsgGroup " +
-							"AND MsgGroups.MsgGroupID = Messages.MsgGroup AND Users.Username = MsgGroups.MsgGroupCreator " +
-							"AND (GroupUsersRelations.RelUsername = '" + loggedUsername + "' " +
-							"OR MsgGroups.MsgGroupCreator = '" + loggedUsername + "') " +
-							"AND Messages.MsgCreationTime > Users.LastLogoutTime " +
-							"GROUP BY MsgGroupID " +
-							"HAVING MAX(MsgID)";
+		String sqltest = "SELECT Count(DISTINCT MsgGroupID) " +
+							"FROM Messages, MsgGroups, GroupUsersRelations, Users " +
+							"WHERE Messages.MsgCreationTime > Users.LastLogoutTime AND " +
+							"Messages.MsgGroup = MsgGroups.MsgGroupID AND " +								
+							"(MsgGroups.MsgGroupCreator = '" + loggedUsername + "' OR " +			
+							"(GroupUsersRelations.RelUsername = '" + loggedUsername + "' " +
+							"AND GroupUsersRelations.RelMsgGroup = MsgGroups.MsgGroupID))";
 		try (Statement stmt = conn.createStatement();) {
 			Message ms = (Message)this;
 			System.out.print("Searching For New Messages");
@@ -210,26 +217,31 @@ public class MsgGroup extends User {
 			ResultSet rs = stmt.executeQuery(sqltest);
 			// if the user has at least 1 new message, show all of them to the screen with the group
 			if (rs.getInt(1) > 0) {
-				String sql = "SELECT MsgGroupID, MsgGroupName, MsgText, MAX(MsgID) as max " +
-								"FROM MsgGroups, GroupUsersRelations, Messages, Users " +
-								"WHERE MsgGroups.MsgGroupID = GroupUsersRelations.RelMsgGroup " +
-								"AND MsgGroups.MsgGroupID = Messages.MsgGroup AND (Users.Username = MsgGroups.MsgGroupCreator OR Users.Username = GroupUsersRelations.RelUsername) " +
-								"AND (GroupUsersRelations.RelUsername = '" + loggedUsername + "' " + 
-								"OR MsgGroups.MsgGroupCreator = '" + loggedUsername + "') " +
-								"AND Messages.MsgCreationTime > Users.LastLogoutTime " +
-								"GROUP BY MsgGroupID " +
-								"HAVING MAX(MsgID)";
+				String sql = "SELECT DISTINCT MsgGroupID, MsgGroupName, MsgText " +
+								"FROM Messages, MsgGroups, GroupUsersRelations, Users " +
+								"WHERE Messages.MsgCreationTime > Users.LastLogoutTime AND " +
+								"Messages.MsgGroup = MsgGroups.MsgGroupID AND " +								
+								"(MsgGroups.MsgGroupCreator = '" + loggedUsername + "' OR " +			
+								"(GroupUsersRelations.RelUsername = '" + loggedUsername + "' " +
+								"AND GroupUsersRelations.RelMsgGroup = MsgGroups.MsgGroupID))";
+
 				rs = stmt.executeQuery(sql);
 				Thread.sleep(1000);
 				while (rs.next()) {
 					System.out.println(rs.getInt("MsgGroupID") + "\t" +
 									rs.getString("MsgGroupname") + "\t" +
-									rs.getString("MsgText") + "\t" +
-									rs.getInt("max"));
+									rs.getString("MsgText"));
 				}
 				System.out.println("Which message group would you like to open? Type its id");
 				int groupID = in.nextInt();
-				ms.showLastMessages(groupID);
+				// check if the User is a member/owner of the group
+				if (checkGroupUserExists(groupID)) {
+					ms.showLastMessages(groupID);
+				} else {
+					clearScreen();
+					System.out.println("No Group Found With The ID Of : " + groupID);
+					Thread.sleep(1500);
+				}
 				rs.close();
 			} else {
 				clearScreen();
@@ -239,5 +251,28 @@ public class MsgGroup extends User {
 		} catch (SQLException e) {
 			System.err.println("Oops, Something Went Wrong While Loading the Groups!");
 		} catch (InterruptedException e) {}
+	}
+
+	/**
+	 * Checks if the user currently logged-in is a member or the owner of a group
+	 * @param groupID takes as an input a Groups' ID
+	 * @return a boolean value(true/false)
+	*/
+	public boolean checkGroupUserExists(int groupID) {
+		boolean GroupUserExists = false; // assume the logged-in user is not a member/owner of said group
+		String sql = "SELECT DISTINCT 1 " +
+						"FROM GroupUsersRelations GU " +
+						"WHERE (GU.RelMsgGroup =" + groupID + " " +
+						"AND GU.RelUsername ='" + loggedUsername + "') " +
+						"OR (SELECT MsgGroupCreator " +
+								"FROM MsgGroups " +
+								"WHERE MsgGroupID =" + groupID + ") ='" + loggedUsername + "'";
+		try(Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);) {
+			GroupUserExists = rs.getInt(1) > 0; // if the user is a member or an owner of the said group, put true
+		} catch (SQLException e) {
+			System.err.println("Oops, Something Went Wrong!");
+		}
+		return GroupUserExists;
 	}
 }

@@ -75,14 +75,19 @@ public class Message extends MsgGroup {
 				}
 				System.out.println("< and > for more messages");
 				Thread.sleep(1000);
-				System.out.println("\n" + "type NEW if you want to send a new message, SEL if you wish to select a message or ADD to add a new user to the chat! ");
+				System.out.println("\n" + "type NEW if you want to send a new message, SEL if you wish to select a message, \n" +
+										"or MEM to see its members");
+			
 				System.out.println("type NO to return to main screen");
 				var ans = in.nextLine();
-				while (!ans.equals("NEW") && !ans.equals("NO") && !ans.equals("SEL") && !ans.equals("ADD") && !ans.equals("<") && !ans.equals(">")) {
-					System.out.println("Invalid input, please type NEW, SEL, ADD or NO ");
+				while (!ans.equals("NEW") && !ans.equals("NO") && !ans.equals("SEL") && 
+						 !ans.equals("<") && !ans.equals(">") && !ans.equals("MEM")) {
+
+					System.out.println("Invalid input, please type NEW, SEL, ADD, MEM or NO ");
 					ans = in.nextLine();
 				}
 				if (ans.equals("NEW")) {
+					clearScreen();
 					System.out.print("Type your nice words: ");
 					var text = in.nextLine();
 					createMessage(text);
@@ -92,9 +97,10 @@ public class Message extends MsgGroup {
 					var msgID = in.nextInt();
 					showMessageInfo(msgID);
 					continue; // after selecting the msg, show again all the group msgs
-				} else if (ans.equals("ADD")) {
-					addUser(0); // give 0 as an parameter so it can know to calculate the groupID properly
-					continue;
+				} else if (ans.equals("MEM")) {
+					clearScreen();
+					showGroupMembers();
+					continue; // after seeing the members, show again all the group msgs
 				}
 				break;
 			} while (true);
@@ -186,4 +192,35 @@ public class Message extends MsgGroup {
 		}
     }
 
+	/**
+	 * shows to the screen the members the group selected
+	 */
+	public void showGroupMembers() {
+		String sql = "SELECT GU.RelUsername as u, V1.owner as ow " +
+						"FROM GroupUsersRelations GU, (SELECT G.MsgGroupCreator as owner " +
+														"FROM MsgGroups G " +
+														"WHERE G.MsgGroupID = '" + groupID + "') as V1 " +
+						"WHERE GU.RelMsgGroup = '" + groupID + "'";
+		try (Statement stmt = conn.createStatement();
+						ResultSet rs = stmt.executeQuery(sql);) {
+			System.out.println( "OWNER: " + rs.getString("ow"));
+			System.out.println("MEMBERS: ");
+			while (rs.next()) {
+				System.out.println(rs.getString("u"));
+			}		
+			System.out.println("\n" + "Do you want to add a user to the chat? (YES/NO)");
+			String ans = in.nextLine();
+			while (!ans.equals("YES") && !ans.equals("NO")) {
+				System.out.println("Invalid Input! Please type YES or NO");
+				ans = in.nextLine();
+			}
+			if (ans.equals("YES")) addUser(0); // give 0 as an parameter so it can know to calculate the groupID properly
+		} catch (SQLException e) {
+			System.err.println("Something went wrong while showing the members!");
+		}
+	}
 }
+
+
+
+
