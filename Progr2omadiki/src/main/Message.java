@@ -48,15 +48,15 @@ public class Message extends MsgGroup {
 			System.out.print(".");
 			Thread.sleep(500);
 			do {
-				ResultSet rs = stmt.executeQuery(sqltest);
+				String groupName = "SELECT MsgGroupName " +
+									"FROM MsgGroups " +
+									"WHERE msgGroupID = " + groupID;
+				ResultSet rs = stmt.executeQuery(groupName);
 				clearScreen();
+				System.out.println("------- " + rs.getString("MsgGroupName") + " -------");
+				rs = stmt.executeQuery(sqltest);
 				// if this group has at least 1 message, show the last 10 on the screen
 				if (rs.getInt(1) > 0) {
-					String groupName = "SELECT MsgGroupName " + 
-										"FROM MsgGroups " +
-										"WHERE msgGroupID = " + groupID;
-					rs = stmt.executeQuery(groupName);
-					System.out.println("------- " + rs.getString("MsgGroupName") + " -------");
 					String msgs = "SELECT MsgText, MsgUsername, MsgID " +
 									"FROM (SELECT MsgText, MsgUsername, MsgCreationTime, MsgID " +
 											"FROM Messages " +
@@ -196,17 +196,23 @@ public class Message extends MsgGroup {
 	 * shows to the screen the members the group selected
 	 */
 	public void showGroupMembers() {
-		String sql = "SELECT GU.RelUsername as u, V1.owner as ow " +
-						"FROM GroupUsersRelations GU, (SELECT G.MsgGroupCreator as owner " +
-														"FROM MsgGroups G " +
-														"WHERE G.MsgGroupID = '" + groupID + "') as V1 " +
-						"WHERE GU.RelMsgGroup = '" + groupID + "'";
+		// first row is the owner, second to end are the members
+		String sql = "SELECT G.MsgGroupCreator fullmembers " +
+					"FROM MsgGroups G " +
+					"WHERE G.MsgGroupID =" + groupID + " " +
+						"UNION ALL " +
+					"SELECT GU.RelUsername " +
+					"FROM GroupUsersRelations GU " +
+					"WHERE GU.RelMsgGroup = " + groupID;
 		try (Statement stmt = conn.createStatement();
 						ResultSet rs = stmt.executeQuery(sql);) {
-			System.out.println( "OWNER: " + rs.getString("ow"));
+			rs.next(); 
+			//show the owner(first row)
+			System.out.println( "OWNER: " + rs.getString(1));
 			System.out.println("MEMBERS: ");
+			// all the following rows consist of the members of the group
 			while (rs.next()) {
-				System.out.println(rs.getString("u"));
+				System.out.println(rs.getString("fullmembers"));
 			}		
 			System.out.println("\n" + "Do you want to add a user to the chat? (YES/NO)");
 			String ans = in.nextLine();
@@ -216,6 +222,7 @@ public class Message extends MsgGroup {
 			}
 			if (ans.equals("YES")) addUser(0); // give 0 as an parameter so it can know to calculate the groupID properly
 		} catch (SQLException e) {
+			System.err.println(e.getMessage());
 			System.err.println("Something went wrong while showing the members!");
 		}
 	}

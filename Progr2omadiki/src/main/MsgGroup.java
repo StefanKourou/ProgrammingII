@@ -265,8 +265,7 @@ public class MsgGroup extends User {
 						"FROM GroupUsersRelations GU, MsgGroups MG " +
 						"WHERE GU.RelMsgGroup = MG.MsgGroupID " +
 						"AND GU.RelMsgGroup =" + groupID + " " +
-						"AND (GU.RelUsername ='" + loggedUsername + "' " +
-						"OR MG.MsgGroupCreator ='" + loggedUsername + "') " + 
+						"AND GU.RelUsername ='" + loggedUsername + "' " +
 						"UNION ALL " +
 						"SELECT COUNT(MG.MsgGroupID) " +
 						"FROM MsgGroups MG " +
@@ -275,10 +274,12 @@ public class MsgGroup extends User {
 		try(Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);) {
 			rs.next(); // go to the first row of the ResultSet
-			GroupUserExists = rs.getInt(1) > 0; // check if he is a member
+			boolean member = rs.getInt(1) > 0; // true if he is a member
 			rs.next();
-			GroupUserExists = rs.getInt(1) > 0; // check if he is the owner
+			boolean owner = rs.getInt(1) > 0; // true if he is the owner
+			GroupUserExists = member || owner;
 		} catch (SQLException e) {
+			System.err.println(e.getMessage());
 			System.err.println("Oops, Something Went Wrong!");
 		} 
 		return GroupUserExists;
