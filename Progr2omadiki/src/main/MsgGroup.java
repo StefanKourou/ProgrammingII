@@ -260,19 +260,27 @@ public class MsgGroup extends User {
 	*/
 	public boolean checkGroupUserExists(int groupID) {
 		boolean GroupUserExists = false; // assume the logged-in user is not a member/owner of said group
-		String sql = "SELECT DISTINCT 1 " +
-						"FROM GroupUsersRelations GU " +
-						"WHERE (GU.RelMsgGroup =" + groupID + " " +
-						"AND GU.RelUsername ='" + loggedUsername + "') " +
-						"OR (SELECT MsgGroupCreator " +
-								"FROM MsgGroups " +
-								"WHERE MsgGroupID =" + groupID + ") ='" + loggedUsername + "'";
+		// produce two rows, 1 to see if the user is a member and 1 to see if he is an owner
+		String sql = "SELECT COUNT(DISTINCT MG.MsgGroupID) " +
+						"FROM GroupUsersRelations GU, MsgGroups MG " +
+						"WHERE GU.RelMsgGroup = MG.MsgGroupID " +
+						"AND GU.RelMsgGroup =" + groupID + " " +
+						"AND (GU.RelUsername ='" + loggedUsername + "' " +
+						"OR MG.MsgGroupCreator ='" + loggedUsername + "') " + 
+						"UNION ALL " +
+						"SELECT COUNT(MG.MsgGroupID) " +
+						"FROM MsgGroups MG " +
+						"WHERE MG.MsgGroupID = " + groupID + " " +
+						"AND MG.MsgGroupCreator ='" + loggedUsername + "'";
 		try(Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);) {
-			GroupUserExists = rs.getInt(1) > 0; // if the user is a member or an owner of the said group, put true
+			rs.next(); // go to the first row of the ResultSet
+			GroupUserExists = rs.getInt(1) > 0; // check if he is a member
+			rs.next();
+			GroupUserExists = rs.getInt(1) > 0; // check if he is the owner
 		} catch (SQLException e) {
 			System.err.println("Oops, Something Went Wrong!");
-		}
+		} 
 		return GroupUserExists;
 	}
 }
