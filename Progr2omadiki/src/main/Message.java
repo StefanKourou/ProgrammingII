@@ -2,6 +2,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.naming.spi.DirStateFactory.Result;
+
 import java.sql.Connection;
 
 /**
@@ -83,7 +86,7 @@ public class Message extends MsgGroup {
 				while (!ans.equals("NEW") && !ans.equals("NO") && !ans.equals("SEL") && 
 						 !ans.equals("<") && !ans.equals(">") && !ans.equals("MEM")) {
 
-					System.out.println("Invalid input, please type NEW, SEL, ADD, MEM or NO ");
+					System.out.println("Invalid input, please type NEW, SEL, MEM or NO ");
 					ans = in.nextLine();
 				}
 				if (ans.equals("NEW")) {
@@ -193,36 +196,40 @@ public class Message extends MsgGroup {
     }
 
 	/**
-	 * shows to the screen the members the group selected
+	 * shows to the screen the members of the group selected
 	 */
 	public void showGroupMembers() {
-		// first row is the owner, second to end are the members
-		String sql = "SELECT G.MsgGroupCreator fullmembers " +
-					"FROM MsgGroups G " +
-					"WHERE G.MsgGroupID =" + groupID + " " +
-						"UNION ALL " +
-					"SELECT GU.RelUsername " +
-					"FROM GroupUsersRelations GU " +
-					"WHERE GU.RelMsgGroup = " + groupID;
-		try (Statement stmt = conn.createStatement();
-						ResultSet rs = stmt.executeQuery(sql);) {
-			rs.next(); 
-			//show the owner(first row)
-			System.out.println( "OWNER: " + rs.getString(1));
+		// query to find the owner of the group
+		String findOwnerOfGroup = "SELECT MG.MsgGroupCreator " +
+									"FROM MsgGroups MG " +
+									"WHERE MG.MsgGroupID =" + groupID;
+		// query to find the members of the group							
+		String findMembersOfGroup = "SELECT GU.RelUsername as members " +
+									"FROM GroupUsersRelations GU " +
+									"WHERE GU.RelMsgGroup =" + groupID + " " +
+									"EXCEPT " +
+									"SELECT MG.MsgGroupCreator " +
+									"FROM MsgGroups MG " +
+									"WHERE MG.MsgGroupID =" + groupID;		
+		try (Statement stmt = conn.createStatement();) {
+			ResultSet rs = stmt.executeQuery(findOwnerOfGroup);
+			String ownerOfGroup = rs.getString(1);
+			System.out.println( "OWNER: " + ownerOfGroup); // show the owner to the screen
+			rs = stmt.executeQuery(findMembersOfGroup);
 			System.out.println("MEMBERS: ");
-			// all the following rows consist of the members of the group
+			// show the members to the screen
 			while (rs.next()) {
-				System.out.println(rs.getString("fullmembers"));
-			}		
-			System.out.println("\n" + "Do you want to add a user to the chat? (YES/NO)");
+				System.out.println(rs.getString("members"));
+			}	
+			System.out.println("\nDo you want to add a user to the chat? (YES/NO)");
 			String ans = in.nextLine();
 			while (!ans.equals("YES") && !ans.equals("NO")) {
 				System.out.println("Invalid Input! Please type YES or NO");
 				ans = in.nextLine();
 			}
 			if (ans.equals("YES")) addUser(0); // give 0 as an parameter so it can know to calculate the groupID properly
+			rs.close();
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
 			System.err.println("Something went wrong while showing the members!");
 		}
 	}

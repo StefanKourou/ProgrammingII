@@ -197,13 +197,15 @@ public class MsgGroup extends User {
 	public void showNewMessages() {
 		clearScreen();
 		// check if the user has any new messages (from all groups)
-		String sqltest = "SELECT Count(DISTINCT MsgGroupID) " +
+		String sqltest = "SELECT COUNT(MsgGroupID) " +
 							"FROM Messages, MsgGroups, GroupUsersRelations, Users " +
 							"WHERE Messages.MsgCreationTime > Users.LastLogoutTime AND " +
-							"Messages.MsgGroup = MsgGroups.MsgGroupID AND " +								
-							"(MsgGroups.MsgGroupCreator = '" + loggedUsername + "' OR " +			
-							"(GroupUsersRelations.RelUsername = '" + loggedUsername + "' " +
-							"AND GroupUsersRelations.RelMsgGroup = MsgGroups.MsgGroupID))";
+							"Messages.MsgGroup = MsgGroups.MsgGroupID AND " +	
+							"Users.Username = '" + loggedUsername + "' " +
+							"AND GroupUsersRelations.RelMsgGroup = MsgGroups.MsgGroupID " +
+							"AND GroupUsersRelations.RelUsername = Users.Username " + 
+							"GROUP BY MsgGroupID " +
+							"HAVING MAX(MsgID)";
 		try (Statement stmt = conn.createStatement();) {
 			Message ms = (Message)this;
 			System.out.print("Searching For New Messages");
@@ -214,19 +216,20 @@ public class MsgGroup extends User {
 			Thread.sleep(500);
 			System.out.print(".");
 			Thread.sleep(500);
+			clearScreen();
 			ResultSet rs = stmt.executeQuery(sqltest);
 			// if the user has at least 1 new message, show all of them to the screen with the group
 			if (rs.getInt(1) > 0) {
-				String sql = "SELECT DISTINCT MsgGroupID, MsgGroupName, MsgText " +
+				String sql = "SELECT MsgGroupID, MsgGroupName, MsgText " +
 								"FROM Messages, MsgGroups, GroupUsersRelations, Users " +
 								"WHERE Messages.MsgCreationTime > Users.LastLogoutTime AND " +
-								"Messages.MsgGroup = MsgGroups.MsgGroupID AND " +								
-								"(MsgGroups.MsgGroupCreator = '" + loggedUsername + "' OR " +			
-								"(GroupUsersRelations.RelUsername = '" + loggedUsername + "' " +
-								"AND GroupUsersRelations.RelMsgGroup = MsgGroups.MsgGroupID))";
-
+								"Messages.MsgGroup = MsgGroups.MsgGroupID AND " +	
+								"Users.Username = '" + loggedUsername + "' " +
+								"AND GroupUsersRelations.RelMsgGroup = MsgGroups.MsgGroupID " +
+								"AND GroupUsersRelations.RelUsername = Users.Username " + 
+								"GROUP BY MsgGroupID " + 
+								"HAVING MAX(MsgID)";
 				rs = stmt.executeQuery(sql);
-				Thread.sleep(1000);
 				while (rs.next()) {
 					System.out.println(rs.getInt("MsgGroupID") + "\t" +
 									rs.getString("MsgGroupname") + "\t" +
@@ -244,7 +247,6 @@ public class MsgGroup extends User {
 				}
 				rs.close();
 			} else {
-				clearScreen();
 				System.out.println("There are no New Messages Right Now, Try Again Later!");
 				Thread.sleep(1000);
 			}
@@ -260,24 +262,15 @@ public class MsgGroup extends User {
 	*/
 	public boolean checkGroupUserExists(int groupID) {
 		boolean GroupUserExists = false; // assume the logged-in user is not a member/owner of said group
-		// produce two rows, 1 to see if the user is a member and 1 to see if he is an owner
-		String sql = "SELECT COUNT(DISTINCT MG.MsgGroupID) " +
-						"FROM GroupUsersRelations GU, MsgGroups MG " +
-						"WHERE GU.RelMsgGroup = MG.MsgGroupID " +
-						"AND GU.RelMsgGroup =" + groupID + " " +
-						"AND GU.RelUsername ='" + loggedUsername + "' " +
-						"UNION ALL " +
-						"SELECT COUNT(MG.MsgGroupID) " +
-						"FROM MsgGroups MG " +
-						"WHERE MG.MsgGroupID = " + groupID + " " +
-						"AND MG.MsgGroupCreator ='" + loggedUsername + "'";
+		// check if the User has a record in the GroupUsersRelations talbe
+		String sql = "SELECT COUNT(*) " +
+						"FROM GroupUsersRelations " + 
+						"WHERE RelMsgGroup =" + groupID + " " +
+						"AND RelUsername ='" + loggedUsername + "'";
 		try(Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);) {
-			rs.next(); // go to the first row of the ResultSet
-			boolean member = rs.getInt(1) > 0; // true if he is a member
-			rs.next();
-			boolean owner = rs.getInt(1) > 0; // true if he is the owner
-			GroupUserExists = member || owner;
+			// if the user has a record, put true
+			GroupUserExists = rs.getInt(1) > 0 ;
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			System.err.println("Oops, Something Went Wrong!");

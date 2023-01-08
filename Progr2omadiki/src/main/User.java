@@ -66,11 +66,11 @@ public class User {
     public boolean checkExistingUser(String name) {
         String sql = "SELECT COUNT(Username) as count " +
                      "FROM Users " +
-                     "WHERE Username= '" + name+ "'";       
-        boolean userExists = true; // assume user already exists
+                     "WHERE Username= '" + name+ "'";
+        boolean userExists = false; // assume user doesn't exist
         try (Statement stm = conn.createStatement();
             ResultSet result = stm.executeQuery(sql);){
-            if (result.getInt(1) == 0) userExists = false; // user doesn't exist in the DB
+            userExists = result.getInt(1) > 0; // if the user exists, put true
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } 
