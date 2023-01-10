@@ -19,7 +19,7 @@ public class User {
     boolean wantsToLogout;
 
     /**
-    *  sets the Connection object with the signature of the Database.
+    *  Sets the Connection object with the signature of the Database.
     */
 
     public User(Connection conn) {
@@ -27,7 +27,7 @@ public class User {
     }
 
     /** 
-     * registers a new user in the Database.
+     * Registers a new user in the Database.
     */
 	public void registerNewUser() {
 	        while (true) {
@@ -59,9 +59,9 @@ public class User {
     }
     
     /** 
-     * returns true if the user exists, or false differently.
-     * @param name the user that we want to check
-     * @return a boolean value(true/false)
+     * Returns true if the user exists, or false differently.
+     * @param name of the user that we want to check
+     * @return a boolean value (true/false)
      */  
     public boolean checkExistingUser(String name) {
         String sql = "SELECT COUNT(Username) as count " +
@@ -78,7 +78,7 @@ public class User {
     }
 
     /** 
-     *creates a password for a user
+     *Creates a password for the user
      */
     public String createPw() {
         System.out.print("Please choose a valid Password, or type 'help' to get an auto-generated one: ");
@@ -119,7 +119,7 @@ public class User {
     }
 
      /**
-      * creates an email for a user
+      * Creates an email for the user
       */
     public String createEmail() {
         System.out.print("Please enter your email: ");
@@ -138,7 +138,7 @@ public class User {
     }
 
     /**
-     *  creates a key word for a user
+     *  Creates a keyword for the user
      */
     public String createKword() {
         System.out.println("Please enter a hobby/thing you like, so we can better customize your experience!");
@@ -148,7 +148,7 @@ public class User {
     }
 
     /**
-     *  creates a discoverability preference for a user
+     *  Creates a discoverability preference (public/private) for the user
      */
     public int createDisc() {
         System.out.println("Would you like for others to discover you by name-search? 0 = no, 1 = yes");
@@ -170,7 +170,8 @@ public class User {
     }
 
     /** 
-     *  inserts a user tuple in the Database
+     *  Inserts a user tuple in the Database.
+     *  @param Name,password,email,keyword and discoverability preference of the given user
      */
     public void inserUserInDB(String name, String pw, String email, String kword, int disc) {
         String sql = "INSERT INTO USERS(Username, Password, Email, UserKeywords, Discoverable)" +
@@ -188,8 +189,8 @@ public class User {
     }
     
     /** 
-     *  verify the user about to login
-     *  Provides 5 options to the user (main menu), after successful login
+     *  Verifies the user who is about to login.
+     *  Provides 5 options to the user (main menu), after successful login.
      */
     public void login() {
         String username;
@@ -241,7 +242,8 @@ public class User {
                 }
             }
         }
-        MsgGroup mg = (MsgGroup) this;
+        
+	MsgGroup mg = (MsgGroup) this;
         wantsToLogout = false;
         while (!wantsToLogout) {
             clearScreen();
@@ -294,8 +296,8 @@ public class User {
     }
 
     /** 
-     * Logs out the logged-in user
-     * Updates the LastLogoutTime of said user
+     * Logs out the logged-in user.
+     * Updates the LastLogoutTime of said user.
     */
     public void doGet() {
         clearScreen();
@@ -333,7 +335,7 @@ public class User {
     }
 
     /**
-     *  clears the CL Screen for better readability.
+     *  Clears the CL Screen for better readability.
     */
     public void clearScreen() {
         try {
@@ -348,7 +350,7 @@ public class User {
     }
 
     /**  
-     * kills the CL Screen.
+     * Kills the CL Screen.
      */
     public void killScreen() {
         try {
