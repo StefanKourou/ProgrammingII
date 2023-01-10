@@ -15,13 +15,13 @@ import java.sql.Connection;
 public class Message extends MsgGroup {
 
 	/** 
-	 * The Group that the user is right now
-	 * it's being set by the showLastMessages(int) method
+	 * The Group that the user is in right now.
+	 * It's being set by the showLastMessages(int) method
 	*/
     int groupID; 
 
 	/** 
-	 * passes the Connection object to the super-class.
+	 * Passes the Connection object to the super-class.
 	 */
 
     public Message(Connection conn) {
@@ -113,7 +113,7 @@ public class Message extends MsgGroup {
     }
 
 	/**  
-	 * creates a new Message for a Group
+	 * Creates a new Message for a Group.
 	 * @param msgText the Message that will be sent to the group
 	*/
     public void createMessage(String msgText) {
@@ -130,7 +130,7 @@ public class Message extends MsgGroup {
     }
 	
 	/**  
-	 * shows info about a specific Message, including the MessageCreationTime
+	 * Shows info about a specific Message, including the MessageCreationTime.
 	 * @param msgID the ID of the message that we want to see information about
 	*/
 
@@ -177,7 +177,7 @@ public class Message extends MsgGroup {
 
 	/**  
 	 * Registers a reaction to a Message
-	 * @param msgID,re The ID of the Message and the reaction
+	 * @param msgID the ID of the Message and re the reaction
 	*/
 
     public void reactionsMessage(int msgID, int re) {
@@ -196,7 +196,7 @@ public class Message extends MsgGroup {
     }
 
 	/**
-	 * shows to the screen the members of the group selected
+	 * Shows to the screen the members of the selected group.
 	 */
 	public void showGroupMembers() {
 		// query to find the owner of the group
