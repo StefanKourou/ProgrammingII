@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="D:/WinFlow/Desktop/user1.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/Progr2omadiki/Progr2JarDescr.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=Progr2omadiki/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;{Main.java[Main" manifestLocation="/Progr2omadiki/MANIFEST.MF" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="true">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/Progr2omadiki/pom.xml"/>
+        <folder path="/Progr2omadiki/target"/>
+        <javaElement handleIdentifier="=Progr2omadiki/src\/main\/resources=/maven.pomderived=/true=/"/>
+        <file path="/Progr2omadiki/.classpath"/>
+        <file path="/Progr2omadiki/.project"/>
+        <javaElement handleIdentifier="=Progr2omadiki/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/"/>
+        <folder path="/Progr2omadiki/src"/>
+        <file path="/Progr2omadiki/.gitignore"/>
+        <javaElement handleIdentifier="=Progr2omadiki/src\/test\/resources=/test=/true=/=/maven.pomderived=/true=/"/>
+        <file path="/Progr2omadiki/Progr2JarDescr.jardesc"/>
+        <javaElement handleIdentifier="=Progr2omadiki/src\/test\/java=/test=/true=/=/optional=/true=/=/maven.pomderived=/true=/"/>
+    </selectedElements>
+</jardesc>
