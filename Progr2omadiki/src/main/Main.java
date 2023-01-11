@@ -31,8 +31,8 @@ public class Main {
     }
         
     /**
+     * Contains the main screen of the program.
      * @param args the command line arguments
-     * Contains the main screen of the program
      */
     public static void main(String[] args) {
         boolean end = false;
