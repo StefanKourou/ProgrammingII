@@ -62,7 +62,7 @@ public class User {
     }
     
     /** 
-     * returns true if the user exists, or false differently.
+     * checks to see if a user exsits in the Database.
      * @param name the user that we want to check
      * @return a boolean value(true/false)
      */  
@@ -206,7 +206,7 @@ public class User {
             System.out.println("Please enter your username:");
             username = in.nextLine();
             clearScreen();
-            Console console = System.console(); // mask the password from the cl
+            Console console = System.console(); // mask the password from the CL
             password = new String(console.readPassword("Please enter Your password: "));
             clearScreen();
             if (checkExistingUser(username)) {
