@@ -2,9 +2,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import javax.naming.spi.DirStateFactory.Result;
-
 import java.sql.Connection;
 
 /**
@@ -36,6 +33,7 @@ public class Message extends MsgGroup {
 	public void showLastMessages(int groupID) {
 		in.nextLine(); // clear the buffer
 		this.groupID = groupID;
+		int n = 0; // used to parameterize the ShowMsgs query to show more msgs
 		clearScreen();
 		// check if this group has any messages
 		String sqltest = "SELECT COUNT(MsgText) " +
@@ -58,13 +56,14 @@ public class Message extends MsgGroup {
 				clearScreen();
 				System.out.println("------- " + rs.getString("MsgGroupName") + " -------");
 				rs = stmt.executeQuery(sqltest);
+				int msgCount;
 				// if this group has at least 1 message, show the last 10 on the screen
-				if (rs.getInt(1) > 0) {
+				if ((msgCount = rs.getInt(1)) > 0) {
 					String msgs = "SELECT MsgText, MsgUsername, MsgID " +
 									"FROM (SELECT MsgText, MsgUsername, MsgCreationTime, MsgID " +
 											"FROM Messages " +
 											"WHERE MsgGroup = " + groupID + " " +
-											"ORDER BY MsgCreationTime DESC LIMIT 10)" +
+											"ORDER BY MsgCreationTime DESC LIMIT 10 OFFSET " + n + ")" +
 									"ORDER BY MsgCreationTime ASC";
 					rs = stmt.executeQuery(msgs);
 					// loop through the result set
@@ -94,16 +93,37 @@ public class Message extends MsgGroup {
 					System.out.print("Type your nice words: ");
 					var text = in.nextLine();
 					createMessage(text);
+					n = 0; // go to the bottom of the chat
 					continue; // after sending the msg, show again all the group msgs(including the one just send)
 				} else if (ans.equals("SEL")) {
 					System.out.print("Give the ID of the message you want to select: ");
 					var msgID = in.nextInt();
 					showMessageInfo(msgID);
+					n = 0; // go to the bottom of the chat
 					continue; // after selecting the msg, show again all the group msgs
 				} else if (ans.equals("MEM")) {
 					clearScreen();
 					showGroupMembers();
+					n = 0; // go to the bottom of the chat
 					continue; // after seeing the members, show again all the group msgs
+				} else if (ans.equals("<")) {
+					if (msgCount - n > 10) {
+						n += 5; // increment the offset by 5, to go back 5 msgs to the screen
+					} else {
+						System.out.println("You reached the start of the chat!");
+						System.out.println("(What were you looking for?)");
+						Thread.sleep(1500);
+					}
+					continue;
+				} else if (ans.equals(">")) {
+					if (n != 0) {
+						n -= 5; // decrement the offset by 5 if there are more messages to show
+					} else {
+						System.out.println("There are not more messages on this chat!");
+						System.out.println("(You can change that)");
+						Thread.sleep(1500);
+					}
+					continue; // show the chat again
 				}
 				break;
 			} while (true);
