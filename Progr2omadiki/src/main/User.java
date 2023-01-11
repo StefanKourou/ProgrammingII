@@ -9,7 +9,9 @@ import java.io.Console;
 
 /**
  *  Responsible for basic User needs, such as Registration, Login and Logout and the main menu of the app.
- *  Authors: Ilias Mpourdakos, Ioannis Papadakis, Ioanna Karitsioti
+ *  @author Ilias Mpourdakos
+ *  @author Ioannis Papadakis
+ *  @author Ioanna Karitsioti
 */
 
 public class User {
@@ -172,6 +174,10 @@ public class User {
 
     /** 
      *  inserts a user tuple in the Database
+     * @param name the name of the user
+     * @param email the email of the user
+     * @param kword a keyword for the user
+     * @param disc the discoveribility preference of the user
      */
     public void inserUserInDB(String name, String pw, String email, String kword, int disc) {
         String sql = "INSERT INTO USERS(Username, Password, Email, UserKeywords, Discoverable)" +
@@ -189,7 +195,7 @@ public class User {
     }
     
     /** 
-     *  verify the user about to login
+     *  verifies the user about to login
      *  Provides 5 options to the user (main menu), after successful login
      */
     public void login() {
