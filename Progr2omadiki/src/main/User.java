@@ -5,6 +5,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 import java.sql.Connection;
 import java.util.Random;
+import java.io.Console;
 
 /**
  *  Responsible for basic User needs, such as Registration, Login and Logout and the main menu of the app.
@@ -19,7 +20,7 @@ public class User {
     boolean wantsToLogout;
 
     /**
-    *  Sets the Connection object with the signature of the Database.
+    *  sets the Connection object with the signature of the Database.
     */
 
     public User(Connection conn) {
@@ -27,7 +28,7 @@ public class User {
     }
 
     /** 
-     * Registers a new user in the Database.
+     * registers a new user in the Database.
     */
 	public void registerNewUser() {
 	        while (true) {
@@ -59,14 +60,14 @@ public class User {
     }
     
     /** 
-     * Returns true if the user exists, or false differently.
-     * @param name of the user that we want to check
-     * @return a boolean value (true/false)
+     * returns true if the user exists, or false differently.
+     * @param name the user that we want to check
+     * @return a boolean value(true/false)
      */  
     public boolean checkExistingUser(String name) {
         String sql = "SELECT COUNT(Username) as count " +
                      "FROM Users " +
-                     "WHERE Username= '" + name+ "'";
+                     "WHERE Username= '" + name + "'";
         boolean userExists = false; // assume user doesn't exist
         try (Statement stm = conn.createStatement();
             ResultSet result = stm.executeQuery(sql);){
@@ -78,7 +79,7 @@ public class User {
     }
 
     /** 
-     *Creates a password for the user
+     *creates a password for a user
      */
     public String createPw() {
         System.out.print("Please choose a valid Password, or type 'help' to get an auto-generated one: ");
@@ -119,7 +120,7 @@ public class User {
     }
 
      /**
-      * Creates an email for the user
+      * creates an email for a user
       */
     public String createEmail() {
         System.out.print("Please enter your email: ");
@@ -138,7 +139,7 @@ public class User {
     }
 
     /**
-     *  Creates a keyword for the user
+     *  creates a key word for a user
      */
     public String createKword() {
         System.out.println("Please enter a hobby/thing you like, so we can better customize your experience!");
@@ -148,7 +149,7 @@ public class User {
     }
 
     /**
-     *  Creates a discoverability preference (public/private) for the user
+     *  creates a discoverability preference for a user
      */
     public int createDisc() {
         System.out.println("Would you like for others to discover you by name-search? 0 = no, 1 = yes");
@@ -170,8 +171,7 @@ public class User {
     }
 
     /** 
-     *  Inserts a user tuple in the Database.
-     *  @param Name,password,email,keyword and discoverability preference of the given user
+     *  inserts a user tuple in the Database
      */
     public void inserUserInDB(String name, String pw, String email, String kword, int disc) {
         String sql = "INSERT INTO USERS(Username, Password, Email, UserKeywords, Discoverable)" +
@@ -189,19 +189,19 @@ public class User {
     }
     
     /** 
-     *  Verifies the user who is about to login.
-     *  Provides 5 options to the user (main menu), after successful login.
+     *  verify the user about to login
+     *  Provides 5 options to the user (main menu), after successful login
      */
     public void login() {
         String username;
         String password;
         while (true) {
             System.out.println("------Login------");
-            System.out.println("Please Insert Your UserName:");
+            System.out.println("Please enter your username:");
             username = in.nextLine();
             clearScreen();
-            System.out.println("Please Insert Your Password:") ;
-            password = in.nextLine();
+            Console console = System.console(); // mask the password from the cl
+            password = new String(console.readPassword("Please enter Your password: "));
             clearScreen();
             if (checkExistingUser(username)) {
                 String sql = "SELECT Password " +
@@ -242,8 +242,7 @@ public class User {
                 }
             }
         }
-        
-	MsgGroup mg = (MsgGroup) this;
+        MsgGroup mg = (MsgGroup) this;
         wantsToLogout = false;
         while (!wantsToLogout) {
             clearScreen();
@@ -296,8 +295,8 @@ public class User {
     }
 
     /** 
-     * Logs out the logged-in user.
-     * Updates the LastLogoutTime of said user.
+     * Logs out the logged-in user
+     * Updates the LastLogoutTime of said user
     */
     public void doGet() {
         clearScreen();
@@ -335,7 +334,7 @@ public class User {
     }
 
     /**
-     *  Clears the CL Screen for better readability.
+     *  clears the CL Screen for better readability.
     */
     public void clearScreen() {
         try {
@@ -350,7 +349,7 @@ public class User {
     }
 
     /**  
-     * Kills the CL Screen.
+     * kills the CL Screen.
      */
     public void killScreen() {
         try {
