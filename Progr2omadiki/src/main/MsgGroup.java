@@ -9,14 +9,14 @@ import java.sql.*;
 public class MsgGroup extends User {
 
 	/**
-	 * Passes the Connection object to the super-class.
+	 * passes the Connection object to the super-class
 	 */
 	public MsgGroup(Connection conn) {
 		super(conn);
 	}
 
 	/**
-	 * Creates a MsgGroup for the logged-in user and inserts it to the Database.
+	 * creates a MsgGroup for the logged in user and inserts it to the Database.
 	 */
 
 	public void createMsgGroup() {
@@ -52,7 +52,7 @@ public class MsgGroup extends User {
 	}
 
 	/**
-	 * Adds a user to a group.
+	 * adds a user to a group, takes a number (0,1) as an parameter
 	 * @param ad takes a binary number(0 or 1) so it can know how to calculate the said group (to know if the group has just been created or not)
 	 */
 	
@@ -134,7 +134,7 @@ public class MsgGroup extends User {
 	}
 
 	/**
-	 *  Shows all MessageGroups that the user owns/is a member of.
+	 *  shows all MessageGroups that the user owns/is a member of.
 	 */
 
 	public void showMsgGroups() {
@@ -191,7 +191,7 @@ public class MsgGroup extends User {
     }
 
 	/**
-	 * Shows all MessageGroups of the logged in user that have new msgs, alongside those msgs.
+	 * shows all MessageGroups of the logged in user that have new msgs, alongside said msgs
 	 */
  
 	public void showNewMessages() {
@@ -256,9 +256,9 @@ public class MsgGroup extends User {
 	}
 
 	/**
-	 * Checks if the user currently logged-in is a member or the owner of a group.
+	 * Checks if the user currently logged-in is a member or the owner of a group
 	 * @param groupID takes as an input a Groups' ID
-	 * @return a boolean value (true/false)
+	 * @return a boolean value(true/false)
 	*/
 	public boolean checkGroupUserExists(int groupID) {
 		boolean GroupUserExists = false; // assume the logged-in user is not a member/owner of said group

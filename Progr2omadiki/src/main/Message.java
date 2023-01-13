@@ -254,7 +254,3 @@ public class Message extends MsgGroup {
 		}
 	}
 }
-
-
-
-
