@@ -1,33 +1,54 @@
-import java.beans.Transient;
+import org.junit.jupiter.api.Assertions.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+
 
 public class MsgGroupTest {
+	Connection conn = null;
     User obj;
     java.sql.Statement stm;
     ResultSet rs;
     String trueGname;
 
-    @before 
+    @BeforeEach 
     void setUp() {   
+        Connection conn = Main.connect(); // establishing connection with the DB
         obj = new User(conn);   
-        Connection conn = connect(); // establishing connection with the DB
-        stm = conn.createStatement();
-        String sqlstm = "INSERT INTO MsgGroups(MsgGroupID, MsgGroupName, MsgGroupCreator, MsgGroupKeywords) " +
-        "VALUES('testcase1', 'testcase1', 'testcase1')"; // inserting a test-group in the DB
-        stm.executeUpdate(sqlstm);
-        assertEquals(obj.checkExistingUser("testcase1", true));
-    }
+        try {
+			stm = conn.createStatement();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+        String sqlstm = "INSERT INTO MsgGroups(MsgGroupName, MsgGroupCreator, MsgGroupKeywords) VALUES('testcase1', 'testcase1', 'testcase1')"; // inserting a test-group in the DB
+        try {
+			stm.executeUpdate(sqlstm);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+}
 
-    @test 
+    @Test 
     void createMsgGroupTest() {
-        String getGname = "SELECT MsgGroupName " +
-                         "FROM MsgGroups " +
-                         "WHERE MsgGroupID = ( " + 
-                                    "SELECT MAX(MsgGroupID) " + 
-                                    "FROM MsgGroups)";
-        rs = stm.executeQuery(sqltest);
-        trueGname = rs.getInt("MsgGroupName");
-        assertEquals("testcase1", trueGname);
+        String getGname = "SELECT MsgGroupName FROM MsgGroups WHERE MsgGroupID = (SELECT MAX(MsgGroupID) FROM MsgGroups)";
+        try {
+			rs = stm.executeQuery(getGname);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+        try {
+			trueGname = rs.getString("MsgGroupName");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+        Assertions.assertEquals("testcase1", trueGname);
     }
 
 }
