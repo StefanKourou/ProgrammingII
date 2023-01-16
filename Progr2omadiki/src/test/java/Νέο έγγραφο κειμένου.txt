@@ -1,5 +1,0 @@
-    @after 
-    void setDown() {
-        String destroy = "DELETE FROM MsgGroups WHERE MsgGroupName ='" + testcase1 + "'";
-        stm.executeUpdate(destroy);
-    }
