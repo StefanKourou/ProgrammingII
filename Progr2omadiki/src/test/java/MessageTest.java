@@ -67,4 +67,16 @@ public class MessageTest {
 		}
         Assertions.assertEquals("txtest", text);
     }
+
+    @AfterEach 
+    void setDown() {
+        String destroy1 = "DELETE FROM Messages WHERE MsgUsername = testcase2";
+        String destroy2 = "DELETE FROM MsgGroups WHERE MsgGroupName = gID";
+        try {
+			stm.executeUpdate(destroy1);
+			stm.executeUpdate(destroy2);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+    }
 }
