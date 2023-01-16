@@ -1,15 +1,19 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.sql.*;
+
 /** 
  * Contains all MessageGroup related operations
- * Authors: Theodora Iakovaki, Haris Barbaris, Ilias Mpourdakos
-*/
+ * @author Theodora Iakovaki 
+ * @author Haris Barbaris
+ * @author Ilias Mpourdakos
+ */
 
 public class MsgGroup extends User {
 
 	/**
 	 * passes the Connection object to the super-class
+	 * @param conn a Conection object with a Database signature
 	 */
 	public MsgGroup(Connection conn) {
 		super(conn);
@@ -18,7 +22,6 @@ public class MsgGroup extends User {
 	/**
 	 * creates a MsgGroup for the logged in user and inserts it to the Database.
 	 */
-
 	public void createMsgGroup() {
 		in.nextLine(); // clear the buffer
 		clearScreen();
@@ -55,7 +58,6 @@ public class MsgGroup extends User {
 	 * adds a user to a group, takes a number (0,1) as an parameter
 	 * @param ad takes a binary number(0 or 1) so it can know how to calculate the said group (to know if the group has just been created or not)
 	 */
-	
 	public void addUser(int ad) {
 		while (true) {
 			clearScreen();
@@ -136,7 +138,6 @@ public class MsgGroup extends User {
 	/**
 	 *  shows all MessageGroups that the user owns/is a member of.
 	 */
-
 	public void showMsgGroups() {
         Message ms = (Message) this;
 		clearScreen();
@@ -193,7 +194,6 @@ public class MsgGroup extends User {
 	/**
 	 * shows all MessageGroups of the logged in user that have new msgs, alongside said msgs
 	 */
- 
 	public void showNewMessages() {
 		clearScreen();
 		// check if the user has any new messages (from all groups)

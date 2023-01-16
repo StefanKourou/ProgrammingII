@@ -5,14 +5,20 @@ import java.util.Scanner;
 
 /**
  *  The main class of the program.
- *  Authors: Ilias Mpourdakos, Stefanos Kouroupakis, Manolis Gialouris,
- *  Giorgos Tsakalos, Ioannis Papadakis, Theodora Iakovaki,
- *  Ioanna Karitsioti, Haris Barbaris
-*/
+ *  @author Ilias Mpourdakos
+ *  @author Stefanos Kouroupakis
+ *  @author Manolis Gialouris,
+ *  @author Giorgos Tsakalos
+ *  @author Ioannis Papadakis
+ *  @author Theodora Iakovaki,
+ *  @author Ioanna Karitsioti
+ *  @author Haris Barbaris
+ */
 
 public class Main {
     /**
      * Establishes a connection to the Progr2 Database.
+     * @return a Connection object with the Progr2 Database signature
      */
     public static Connection connect() {
         Connection conn = null;

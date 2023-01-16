@@ -6,9 +6,8 @@ import java.util.Scanner;
 
 /**  
 * Contains all User-statistics static methods
-* Authors: Ilias Mpourdakos
+* @author Ilias Mpourdakos
 */
-
 public class UserProfile {
 
     static Scanner input = new Scanner(System.in);
@@ -24,15 +23,17 @@ public class UserProfile {
     static String loggedUsername;
 
     /**
-    *  Sets the Connection object
-    */
+     *  Sets the Connection object
+     *  @param conne Connection object 
+     */
     public static void setConn(Connection conne) {
         conn = conne;
     }
 
     /** 
-    *  Sets the logged-in user
-    */
+     *  Sets the logged-in user
+     * @param name the name of the user
+     */
     public static void setLogName(String name) {
         loggedUsername = name;
     }
@@ -83,8 +84,8 @@ public class UserProfile {
     }
 
     /**  
-    *  Shows the Count of the Messages sent by the user
-    */
+     *  Shows the Count of the Messages sent by the user
+     */
     public static void showMsgCount() {
         int msgs;
         String sql = "SELECT COUNT(MsgID) " +
@@ -100,8 +101,8 @@ public class UserProfile {
     }
 
     /**  
-    *  Shows the current Login time of the user
-    */
+     *  Shows the current Login time of the user
+     */
     public static void showTimeLoggedIn() {
         String timeLogged;
         String sql = "SELECT (strftime('%M', 'now') - strftime('%M',  LastLoginTime)) as timeLogged " +
@@ -117,8 +118,8 @@ public class UserProfile {
     }
 
     /**  
-    *  Shows the Reactions that the user has given and has been given with a graphical way
-    */
+     *  Shows the Reactions that the user has given and has been given with a graphical way
+     */
     public static void showReactions() {
         int likesUserGave = 0;
         int dislikesUserGave = 0;
@@ -195,8 +196,9 @@ public class UserProfile {
     }
 
     /**  
-    *  Returns the Last Login time of the user
-    */
+     *  Returns the Last Login time of the user
+     * @return a String value representing the Time
+     */
     public static String getLoginTime() {
         String logintime;
         String sql = "SELECT LastLoginTime " +
@@ -213,8 +215,9 @@ public class UserProfile {
     }
 
     /**  
-    *  Returns the Last Logout time of the user
-    */
+     *  Returns the Last Logout time of the user
+     * @return a String value representing the Time
+     */
     public static String getLogoutTime() {
         String logouttime;
         String sql = "SELECT LastLogoutTime " +

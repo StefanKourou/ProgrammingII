@@ -12,7 +12,7 @@ import java.io.Console;
  *  @author Ilias Mpourdakos
  *  @author Ioannis Papadakis
  *  @author Ioanna Karitsioti
-*/
+ */
 
 public class User {
     Connection conn;
@@ -22,9 +22,9 @@ public class User {
     boolean wantsToLogout;
 
     /**
-    *  sets the Connection object with the signature of the Database.
-    */
-
+     *  sets the Connection object with the signature of the Database.
+     *  @param conn a Conection object with a Database signature
+     */
     public User(Connection conn) {
         this.conn = conn;
     }
@@ -81,7 +81,8 @@ public class User {
     }
 
     /** 
-     *creates a password for a user
+     * creates a password for a user
+     * @return the created password
      */
     public String createPw() {
         System.out.print("Please choose a valid Password, or type 'help' to get an auto-generated one: ");
@@ -123,6 +124,7 @@ public class User {
 
      /**
       * creates an email for a user
+      * @return the created email
       */
     public String createEmail() {
         System.out.print("Please enter your email: ");
@@ -141,7 +143,8 @@ public class User {
     }
 
     /**
-     *  creates a key word for a user
+     * creates a key word for a user
+     * @return the created KeyWord
      */
     public String createKword() {
         System.out.println("Please enter a hobby/thing you like, so we can better customize your experience!");
@@ -151,7 +154,8 @@ public class User {
     }
 
     /**
-     *  creates a discoverability preference for a user
+     * creates a discoverability preference for a user
+     * @return a binary value
      */
     public int createDisc() {
         System.out.println("Would you like for others to discover you by name-search? 0 = no, 1 = yes");
@@ -173,8 +177,9 @@ public class User {
     }
 
     /** 
-     *  inserts a user tuple in the Database
+     * inserts a user tuple in the Database
      * @param name the name of the user
+     * @param pw the password of the user
      * @param email the email of the user
      * @param kword a keyword for the user
      * @param disc the discoveribility preference of the user
@@ -288,7 +293,7 @@ public class User {
                         } catch (InterruptedException e) {}
                         break;
                     case 5:
-                        doGet(); // go to logout screen
+                        logout(); // go to logout screen
                         break;
                     default:
                         clearScreen(); // else try again
@@ -303,8 +308,8 @@ public class User {
     /** 
      * Logs out the logged-in user
      * Updates the LastLogoutTime of said user
-    */
-    public void doGet() {
+     */
+    public void logout() {
         clearScreen();
         in.nextLine(); // clear the buffer
 		System.out.println("Do you want to logout? (YES/NO)");
@@ -341,7 +346,7 @@ public class User {
 
     /**
      *  clears the CL Screen for better readability.
-    */
+     */
     public void clearScreen() {
         try {
             final String os = System.getProperty("os.name");

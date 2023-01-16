@@ -5,22 +5,25 @@ import java.sql.Statement;
 import java.sql.Connection;
 
 /**
-* Contains all Message related operations given a groupID.
-* Authors: Giorgos Tsakalos, Manolis Gialouris, Ilias Mpourdakos, Stefanos Kouroupakis.
-*/
+ * Contains all Message related operations given a groupID.
+ * @author Giorgos Tsakalos
+ * @author Manolis Gialouris
+ * @author Ilias Mpourdakos
+ * @author Stefanos Kouroupakis
+ */
 
 public class Message extends MsgGroup {
 
 	/** 
 	 * The Group that the user is in right now.
 	 * It's being set by the showLastMessages(int) method
-	*/
+	 */
     int groupID; 
 
 	/** 
 	 * Passes the Connection object to the super-class.
+	 * @param conn a Connection object with a Database signature
 	 */
-
     public Message(Connection conn) {
         super(conn);
     }
@@ -29,7 +32,6 @@ public class Message extends MsgGroup {
 	 * shows the last 10 Messages of a group
 	 * @param groupID the groupID of the said group
 	*/
-
 	public void showLastMessages(int groupID) {
 		in.nextLine(); // clear the buffer
 		this.groupID = groupID;
@@ -153,7 +155,6 @@ public class Message extends MsgGroup {
 	 * Shows info about a specific Message, including the MessageCreationTime.
 	 * @param msgID the ID of the message that we want to see information about
 	*/
-
 	public void showMessageInfo(int msgID) {
 		clearScreen();
 		// check if this group has any msgs with the id of msgID
@@ -197,9 +198,9 @@ public class Message extends MsgGroup {
 
 	/**  
 	 * Registers a reaction to a Message
-	 * @param msgID the ID of the Message and re the reaction
+	 * @param msgID the ID of the Message
+	 * @param re the reaction
 	*/
-
     public void reactionsMessage(int msgID, int re) {
         String newReaction =
         "INSERT INTO Reactions (ReMsg, ReUsername, Reaction)" +
