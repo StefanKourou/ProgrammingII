@@ -51,4 +51,13 @@ public class MsgGroupTest {
         Assertions.assertEquals("testcase1", trueGname);
     }
 
+    @AfterEach 
+    void setDown() {
+        String destroy = "DELETE FROM MsgGroups WHERE MsgGroupName = testcase1";
+        try {
+			stm.executeUpdate(destroy);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+    }
 }
