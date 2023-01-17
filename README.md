@@ -18,4 +18,4 @@ Starting the app, the user has 3 options: Sign up, Sign in and exit the app. Fol
 ![UML](https://github.com/StefanKourou/ProgrammingII/blob/main/Progr2omadiki/src/main/javadoc/UML.PNG)
 
  ## Data Structures & Algorithms:
- For the making of the app, various data storage and manipulation tools were used. One of them being [Sqlite](https://www.sqlite.org/index.html) that was used as the internal Data Base of the whole application. Algorithms that were used were created using Java and their application consists of making the connection between Sqlite & the program, sending and receiving info from the Database, as well as making sure the user can navigate the app easily.
+ For the making of the app, various data storage and manipulation tools were used. One of them being [Sqlite](https://www.sqlite.org/index.html) that was used as the internal Data Base of the whole application. Algorithms that were used were written using Java and their application consists of making the connection between Sqlite & the program, sending and receiving info from the Database, as well as making sure the user can navigate the app easily.
