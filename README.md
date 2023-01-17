@@ -6,6 +6,7 @@ The proccess of the compilation was done using the maven build automation tool
 ## Running the program:
 Commands to verify, test and build the .jar file 
 >-mvn clean package
+
 >-java -jar Progr2omadiki-1.2.7.jar
 ## Using the program:
 Starting the app, the user has 3 options: Sign up, Sign in and exit the app. Following the sign up, the user can navigate the platform in different ways such as: Create a Message Group, invite people to it and send Messages.
