@@ -4,6 +4,7 @@
 The proccess of the compilation was done using the maven build automation tool
 >-mvn compile
 ## Running the program:
+The user first has to download the Database file(Progr2.db) located in the resources folder of this repo and install it in the C disk
 Commands to verify, test and build the .jar file 
 >-mvn clean package
 
