@@ -5,6 +5,7 @@ The proccess of the compilation was done using the maven build automation tool
 >-mvn compile
 ## Running the program:
 In order to use UniTed, you would first need to download the [database](https://github.com/StefanKourou/ProgrammingII/tree/main/Progr2omadiki/src/main/resources/sqlite/db) from this repo & install it in your Local Disk C using the path **sqlite/db/Progr2.db** , as well as the [driver](https://github.com/StefanKourou/ProgrammingII/blob/main/Progr2omadiki/src/main/resources/sqlite-jdbc-3.40.0.0.jar) needed to make the connection.
+
 Commands to verify, test and build the .jar file 
 >-mvn clean package
 
